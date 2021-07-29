@@ -6,14 +6,15 @@ import { NavigationContainer} from '@react-navigation/native'
 
 
 import {AuthProvider } from "./src/hooks/auth";
+import { theme } from './src/global/styles/theme';
 
 export default function App() {
   return (
     <NavigationContainer>
     <AuthProvider>
     <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
+        barStyle='dark-content'
+        backgroundColor={theme.colors.secondary}
         translucent
       />
       <Routes/>

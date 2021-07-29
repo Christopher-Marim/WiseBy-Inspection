@@ -3,23 +3,49 @@ import { theme } from '../../global/styles/theme';
 
 export const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    containerHeader: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: '100%',
+
     },
     title: {
-        fontSize: 18,
-        fontWeight: '500',
-        marginLeft:12,
-        lineHeight:21,
-        color: theme.colors.heading
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily:'Roboto',
+        marginLeft: 12,
+        color: theme.colors.titleColor
     },
-    button:{
+    button: {
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
         height: 50,
-        borderRadius:25,
+        borderRadius: 25,
+    },
+    wrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    filterButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop:10
+        
+    },
+    buttonFilter:{
+        alignItems:'center',
+        width:110,
+    },
+    textButtonFilter:{
+        fontSize:15,
+        fontWeight:'bold',
+        color:theme.colors.gray
     }
 });

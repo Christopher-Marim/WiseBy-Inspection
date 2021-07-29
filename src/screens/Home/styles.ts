@@ -5,8 +5,8 @@ import { theme } from '../../global/styles/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.primary,
-    
+    backgroundColor: theme.colors.background,
+    alignItems: "center"
   },
   header: {
     width: '100%',
@@ -14,7 +14,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: getStatusBarHeight(),
     paddingHorizontal: 10,
-    borderBottomWidth: 2,
+    backgroundColor: theme.colors.white,
+    height: '10%'
   },
   search: {
     paddingHorizontal: 10,
@@ -34,5 +35,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     
   },
+  lista:{
+    flex:1,
+    paddingTop:5
+  }
 
 });

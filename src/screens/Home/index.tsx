@@ -1,13 +1,12 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { View, ScrollView, Text, Image } from "react-native";
 import { Header } from "../../components/Header";
 import { Search } from "../../components/Search";
 import { SwiperComponent } from "../../components/Swiper";
-import { GroupCategories } from "../../components/GroupCategories";
 import { styles } from "./styles";
-import { categories } from "./../../utils/categories";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useAuth } from "../../hooks/auth";
+import { ListaOs } from "../../components/ListaDeOs";
 
 export function Home() {
   const data2 = [
@@ -39,23 +38,16 @@ export function Home() {
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ alignItems: "center" }}
-    >
-      <TouchableOpacity onPress={handleSignOut} style={{backgroundColor:'red', width:100, height:50}}/>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Header></Header>
       </View>
-      <View style={styles.search}>
-        <Search />
+
+    
+
+      <View style={styles.lista}>
+        <ListaOs></ListaOs>
       </View>
-      <View style={styles.slider}>
-        <SwiperComponent data={data2} />
-      </View>
-      <View style={styles.categories}>
-        <GroupCategories />
-      </View>
-    </ScrollView>
+    </View>
   );
 }

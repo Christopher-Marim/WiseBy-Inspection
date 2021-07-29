@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Text,
   Animated,
-  Alert,
+  StatusBar,
   Dimensions,
   Keyboard,
   Linking,
@@ -92,6 +92,11 @@ export function SignIn({navigation}:any) {
       <LinearGradient style={{flex:1}} 
       
       colors={[theme.colors.blue, theme.colors.primary]}>
+         <StatusBar
+        barStyle='light-content'
+        backgroundColor="transparent"
+        translucent
+      />
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.containerLogo}>
         <Animated.Image
