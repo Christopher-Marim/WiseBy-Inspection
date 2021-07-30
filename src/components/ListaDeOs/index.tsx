@@ -14,6 +14,7 @@ type ObjectList = {
   status: string;
 };
 
+
 export function ListaOs() {
   const [listaOrdenada, setListaOrdenada] = useState<ObjectList[] | undefined>(
     undefined
@@ -111,6 +112,7 @@ export function ListaOs() {
           >
             <OrdemDeServico
               key={OS.id}
+              id={OS.id}
               nomeOs={OS.nomeOs}
               numeroOs={OS.numeroOs}
               dataOs={OS.dataOs}

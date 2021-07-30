@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { View, ScrollView, Text, Image } from "react-native";
+import React from "react";
+import { View, } from "react-native";
 import { Header } from "../../components/Header";
-import { Search } from "../../components/Search";
-import { SwiperComponent } from "../../components/Swiper";
 import { styles } from "./styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {useDispatch, useSelector} from 'react-redux'
 import { useAuth } from "../../hooks/auth";
 import { ListaOs } from "../../components/ListaDeOs";
 
@@ -36,6 +35,8 @@ export function Home() {
   function handleSignOut() {
     signOut();
   }
+
+ // const result = useSelector((state)=> state.osList.nomeOs)
 
   return (
     <View style={styles.container}>

@@ -4,20 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { theme } from "../../global/styles/theme";
 import { LinearGradient } from "expo-linear-gradient";
-
-type Responsavel = {
-  nome: string;
-  systemUserId: string;
-  systemUnitId: string;
-};
-
-type Props = {
-  nomeOs: string;
-  numeroOs: string;
-  dataOs: string;
-  tecnico: Responsavel;
-  status: string;
-};
+import { OS } from "../../state/types";
 
 export function OrdemDeServico({
   nomeOs,
@@ -25,7 +12,8 @@ export function OrdemDeServico({
   dataOs,
   tecnico,
   status,
-}: Props) {
+}: OS) {
+
   return (
     <LinearGradient
       style={styles.container}
