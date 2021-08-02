@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
     paddingHorizontal: 10,
     backgroundColor: theme.colors.white,
-    height: '10%'
+    height: Dimensions.get('window').height*.1
   },
   search: {
     paddingHorizontal: 10,

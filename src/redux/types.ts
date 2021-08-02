@@ -1,15 +1,13 @@
 
-
 export type AppState = {
   osList: OSListState,
 }
 
-
 export type Responsavel = {
-    nome: string;
-    systemUserId: string;
-    systemUnitId: string;
-  };
+  nome: string;
+  systemUserId: string;
+  systemUnitId: string;
+};
 
 export type OS = {
   id: string;
@@ -20,7 +18,10 @@ export type OS = {
   status: string;
 }
 
-export type OSListState = OS[];
+export type OSListState = {
+  data: OS[],
+  dataFiltred: OS[]
+};
 
 export type AddOSAction = {
   type: string;
@@ -35,5 +36,9 @@ export type RemoveOSAction = {
   type: string;
   index: number;
 }
+export type ToggleFilterOSAction = {
+  type: string;
+  filter: string;
+}
 
-export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction;
+export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction;

@@ -3,7 +3,7 @@ import React from 'react';
 import { Routes } from "./src/routes";
 import { StatusBar } from "react-native";
 import { NavigationContainer} from '@react-navigation/native'
-import store from './src/state/store';
+import store from './src/redux/store';
 import {Provider} from 'react-redux'
 
 

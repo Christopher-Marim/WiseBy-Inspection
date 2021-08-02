@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Alert, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-//import { categories } from "../../utils/categories";
 import { OrdemDeServico } from "../OS";
 import { styles } from "./styles";
+
+import { useSelector } from "react-redux";
+import { AppState } from "../../redux/types";
 
 type ObjectList = {
   id: string;
@@ -14,11 +16,12 @@ type ObjectList = {
   status: string;
 };
 
-
 export function ListaOs() {
   const [listaOrdenada, setListaOrdenada] = useState<ObjectList[] | undefined>(
     undefined
   );
+
+  const listaOs2 = useSelector((state:AppState) => state.osList.dataFiltred);
 
   useEffect(() => {
     let result: ObjectList[] = listaOs.sort((a, b) => {
@@ -32,14 +35,6 @@ export function ListaOs() {
     setListaOrdenada(result);
   }, []);
   const listaOs = [
-    {
-      id: "1",
-      nomeOs: "Manutenção Trator",
-      numeroOs: "15005",
-      dataOs: "15/09/2022 - 26/05/2023",
-      tecnico: { nome: "Christopher", SystemUserId: "1", SystemUnitId: "1" },
-      status: "Em Andamento",
-    },
     {
       id: "2",
       nomeOs: "Manutenão Trator",
@@ -90,7 +85,7 @@ export function ListaOs() {
     },
   ];
 
-   function filtroLista(filter: string) {
+  function filtroLista(filter: string) {
     var listaOrdenadax = listaOs.filter((item) => {
       if (item.status.toLowerCase() == filter.toLowerCase()) {
         return item;
@@ -102,7 +97,7 @@ export function ListaOs() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={listaOrdenada}
+        data={listaOs2}
         keyExtractor={(item) => item?.id}
         renderItem={({ item: OS }) => (
           <View

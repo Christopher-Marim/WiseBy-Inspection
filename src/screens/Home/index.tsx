@@ -43,9 +43,6 @@ export function Home() {
       <View style={styles.header}>
         <Header></Header>
       </View>
-
-    
-
       <View style={styles.lista}>
         <ListaOs></ListaOs>
       </View>

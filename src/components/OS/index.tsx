@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { theme } from "../../global/styles/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { OS } from "../../state/types";
+import { OS } from "../../redux/types";
 
 export function OrdemDeServico({
   nomeOs,
@@ -25,7 +25,7 @@ export function OrdemDeServico({
         </Text>
         <Text numberOfLines={1} style={styles.dateText}>
           Técnico responsável: {tecnico.nome}
-        </Text>
+        </Text> 
         <Text numberOfLines={1} style={styles.dateText}>
           {dataOs}
         </Text>
