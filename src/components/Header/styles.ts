@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 25,
         fontWeight: 'bold',
-        fontFamily:'Roboto',
+        fontFamily: 'Roboto',
         marginLeft: 12,
         color: theme.colors.titleColor
     },
@@ -36,16 +36,31 @@ export const styles = StyleSheet.create({
     filterButtons: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop:10
-        
+        paddingTop: 10
+
     },
-    buttonFilter:{
-        alignItems:'center',
-        width:110,
+    buttonFilter: {
+        alignItems: 'center',
+        width: 110,
     },
-    textButtonFilter:{
-        fontSize:15,
-        fontWeight:'bold',
-        color:theme.colors.gray
+    textButtonFilter: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: theme.colors.gray
+    },
+    textInput: {
+        backgroundColor: theme.colors.heading,
+        position: 'absolute',
+        right: 0,
+        width: '85%',
+        height: 50,
+        borderRadius: 5,
+        paddingHorizontal: 15,
+        fontSize: 16,
+    },
+    textInput2: {
+        backgroundColor: theme.colors.heading,
+        height: '100%',
+        fontSize: 16
     }
 });
