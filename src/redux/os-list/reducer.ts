@@ -1,4 +1,4 @@
-import { AddOSAction, OSListAction, OSListState, RemoveOSAction, ToggleFilterOSAction } from "../types";
+import { AddOSAction, OSListAction, OSListState, RemoveOSAction, SearchFilterOSAction, ToggleFilterOSAction } from "../types";
 import { OS_LIST_ACTION_TYPES } from "./actions";
 
 const initialState: OSListState = {
@@ -13,7 +13,7 @@ const initialState: OSListState = {
     },
     {
       id: "2",
-      nomeOs: "Manutenão Trator",
+      nomeOs: "Limpar Piso",
       numeroOs: "15005",
       dataOs: "15/09/2022 - 26/05/2023",
       tecnico: { nome: "Christopher", systemUserId: "1", systemUnitId: "1" },
@@ -21,7 +21,7 @@ const initialState: OSListState = {
     },
     {
       id: "3",
-      nomeOs: "Manutenão Trator",
+      nomeOs: "Trator",
       numeroOs: "15005",
       dataOs: "15/09/2022 - 26/05/2023",
       tecnico: { nome: "Christopher", systemUserId: "1", systemUnitId: "1" },
@@ -37,7 +37,7 @@ const initialState: OSListState = {
     },
     {
       id: "5",
-      nomeOs: "Manutenão Trator",
+      nomeOs: "Varrer casa",
       numeroOs: "15005",
       dataOs: "15/09/2022 - 26/05/2023",
       tecnico: { nome: "Christopher", systemUserId: "1", systemUnitId: "1" },
@@ -60,8 +60,8 @@ const initialState: OSListState = {
       status: "Em andamento",
     },
   ],
-  dataFiltred:[],
-  
+  dataFiltred: [],
+
 }
 
 const osList = (state: OSListState = initialState, action: OSListAction) => {
@@ -80,17 +80,35 @@ const osList = (state: OSListState = initialState, action: OSListAction) => {
       newState.data.splice(index, 1);
       return { ...newState };
 
-    case OS_LIST_ACTION_TYPES.FILTER_OS:
+    case OS_LIST_ACTION_TYPES.FILTER_OS: {
 
       const { filter } = <ToggleFilterOSAction>action;
 
-      var x =newState.data.filter((item) => {
+      var x = newState.data.filter((item) => {
         if (item.status.toLowerCase() == filter.toLowerCase()) {
           return item;
-        }})
-        return { ...newState, dataFiltred:[...x]};
+        }
+      })
+      return { ...newState, dataFiltred: [...x] };
+    }
+    case OS_LIST_ACTION_TYPES.SEARCH_OS: {
 
-        default:
+      const { filter, status } = <SearchFilterOSAction>action;
+
+      var x = newState.data.filter((item) => {
+        if (item.status.toLowerCase() == status.toLowerCase()) {
+          if (
+            RegExp(filter.toLowerCase()).test(item.nomeOs.toLowerCase()) ||
+            RegExp(filter.toLowerCase()).test(item.numeroOs.toLowerCase()) ||
+            RegExp(filter.toLowerCase()).test(item.tecnico.nome.toLowerCase())) {
+            console.log(item)
+            return item;
+          }
+        }
+      })
+      return { ...newState, dataFiltred: [...x] };
+    }
+    default:
       return state;
   }
 }

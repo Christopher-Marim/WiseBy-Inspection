@@ -39,8 +39,7 @@ export function SignIn({navigation}:any) {
   const [imageHeight] = useState(new Animated.Value(1));
 
   const { user,signed, signIn } = useAuth();
-  console.log(signed);
-
+  
   async function handleSign() {
     signIn({login,senha});
   }

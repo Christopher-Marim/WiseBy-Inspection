@@ -49,17 +49,19 @@ export const styles = StyleSheet.create({
         color: theme.colors.gray
     },
     textInput: {
-        backgroundColor: theme.colors.heading,
+        backgroundColor: theme.colors.white,
         position: 'absolute',
         right: 0,
-        width: '85%',
+        width: '100%',
         height: 50,
         borderRadius: 5,
         paddingHorizontal: 15,
         fontSize: 16,
+        borderWidth: 3,
+        borderColor: theme.colors.heading
     },
     textInput2: {
-        backgroundColor: theme.colors.heading,
+        backgroundColor: theme.colors.white,
         height: '100%',
         fontSize: 16
     }

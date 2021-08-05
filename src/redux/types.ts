@@ -41,4 +41,10 @@ export type ToggleFilterOSAction = {
   filter: string;
 }
 
-export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction;
+export type SearchFilterOSAction = {
+  type: string;
+  filter: string;
+  status: string;
+}
+
+export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction;

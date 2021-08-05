@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import {
   View,
@@ -12,27 +12,39 @@ import { theme } from "../../global/styles/theme";
 import { styles } from "./styles";
 
 import { useDispatch } from "react-redux";
-import { removeOS, toggleFilterOs } from "../../redux/os-list/actions";
+import {
+  removeOS,
+  searchFilterOs,
+  toggleFilterOs,
+} from "../../redux/os-list/actions";
 
 export function Header() {
+  const [textInputWidth] = useState(new Animated.Value(0));
   const [filterActive, setFilterActive] = useState(true);
   const [searchActive, setSearchActive] = useState(false);
+  const [searchText, setSearchText] = useState(``);
 
   const dispatch = useDispatch();
+  const textInputRef = useRef<TextInput>(null);
 
   useEffect(() => {
     dispatch(toggleFilterOs("pendente"));
-    
   }, []);
-
-  const [textInputWidth] = useState(new Animated.Value(80));
 
   const searchWillShow = () => {
     Animated.timing(textInputWidth, {
       duration: 300,
-      toValue:-50,
+      toValue: 1,
       useNativeDriver: true,
     }).start();
+
+  };
+
+  const getFocusInput = () => {
+    if (textInputRef && textInputRef.current) {
+      textInputRef.current.focus();
+      console.log("DALE");
+    }
   };
 
   return (
@@ -48,17 +60,40 @@ export function Header() {
           <Text style={styles.title}>Lista de OS</Text>
         </View>
         {searchActive && (
-          <Animated.View style={[styles.textInput, { transform: [{ translateX: textInputWidth }] }]}>
-            <TextInput style={[styles.textInput2]} />
+          <Animated.View
+            style={[styles.textInput, { opacity: textInputWidth }]}
+          >
+            <TextInput
+              ref={textInputRef}
+              style={[styles.textInput2]}
+              placeholder={'Filtro...'}
+              onChangeText={(text) => {
+                setSearchText(text);
+                if (filterActive) {
+                  dispatch(searchFilterOs(text, "pendente"));
+                } else {
+                  dispatch(searchFilterOs(text, "em andamento"));
+                }
+              }}
+            />
           </Animated.View>
         )}
-        <TouchableOpacity style={styles.button}>
-          <Ionicons
-            name="search"
-            size={30}
-            color={theme.colors.titleColor}
-            onPress={() => {setSearchActive(!searchActive), searchWillShow()}}
-          />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setSearchActive(!searchActive), searchWillShow();
+
+            setTimeout(()=>{getFocusInput()},150)
+            if (searchActive) {
+              if (filterActive) {
+                dispatch(toggleFilterOs("pendente"));
+              } else {
+                dispatch(toggleFilterOs("Em andamento"));
+              }
+            }
+          }}
+        >
+          <Ionicons name="search" size={30} color={theme.colors.titleColor} />
         </TouchableOpacity>
       </View>
       <View style={styles.filterButtons}>
