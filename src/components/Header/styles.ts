@@ -63,6 +63,7 @@ export const styles = StyleSheet.create({
     textInput2: {
         backgroundColor: theme.colors.white,
         height: '100%',
+        paddingRight:25,
         fontSize: 16
     }
 });

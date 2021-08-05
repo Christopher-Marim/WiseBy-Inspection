@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   Animated,
+  BackHandler,
+  Alert
 } from "react-native";
 import { theme } from "../../global/styles/theme";
 import { styles } from "./styles";
@@ -27,10 +29,12 @@ export function Header() {
   const dispatch = useDispatch();
   const textInputRef = useRef<TextInput>(null);
 
+  //sempre que renderizado componente é feito o filtro com as OS pendentes 
   useEffect(() => {
     dispatch(toggleFilterOs("pendente"));
   }, []);
 
+  // Aniamção para a barra de Pesquisa
   const searchWillShow = () => {
     Animated.timing(textInputWidth, {
       duration: 300,
@@ -39,13 +43,31 @@ export function Header() {
     }).start();
 
   };
-
+//função para focar no TextInput
   const getFocusInput = () => {
     if (textInputRef && textInputRef.current) {
       textInputRef.current.focus();
-      console.log("DALE");
     }
   };
+
+  //Se o botão de voltar do celular for pressionado, caso a barra de pequisal esteja ativa irá fechar ela,
+  // caso não, aparecerá um alerta de confimação para sair do app
+  BackHandler.addEventListener('hardwareBackPress', ()=>{
+    if (searchActive){
+      setSearchActive(false)
+      return true;
+    }
+    else {
+      Alert.alert("Espere", "Deseja mesmo sair da aplicação?", [
+        {
+          text: "Cancelar",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "Sim", onPress: () => BackHandler.exitApp() }
+      ]);
+    }
+  })
 
   return (
     <View style={styles.container}>
