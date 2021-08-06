@@ -65,22 +65,22 @@ const initialState: OSListState = {
 }
 
 const osList = (state: OSListState = initialState, action: OSListAction) => {
-  const newState: OSListState = state;
-  switch (action.type) {
-    case OS_LIST_ACTION_TYPES.ADD_OS:
+  const newState: OSListState = state; 
+  switch (action.type) { 
+    case OS_LIST_ACTION_TYPES.ADD_OS: 
 
-      const { osData } = <AddOSAction>action;
+      const { osData } = <AddOSAction>action; 
       return {
         ...newState, data: { ...newState.data, osData }
       };
 
-    case OS_LIST_ACTION_TYPES.REMOVE_OS:
-
-      const { index } = <RemoveOSAction>action;
+    case OS_LIST_ACTION_TYPES.REMOVE_OS: 
+ 
+      const { index } = <RemoveOSAction>action; 
       newState.data.splice(index, 1);
-      return { ...newState };
+      return { ...newState }; 
 
-    case OS_LIST_ACTION_TYPES.FILTER_OS: {
+    case OS_LIST_ACTION_TYPES.FILTER_OS: { 
 
       const { filter } = <ToggleFilterOSAction>action;
 
@@ -93,20 +93,20 @@ const osList = (state: OSListState = initialState, action: OSListAction) => {
     }
     case OS_LIST_ACTION_TYPES.SEARCH_OS: {
 
-      const { filter, status } = <SearchFilterOSAction>action;
+      const { filter, status } = <SearchFilterOSAction>action; 
 
-      var x = newState.data.filter((item) => {
-        if (item.status.toLowerCase() == status.toLowerCase()) {
-          if (
-            RegExp(filter.toLowerCase()).test(item.nomeOs.toLowerCase()) ||
-            RegExp(filter.toLowerCase()).test(item.numeroOs.toLowerCase()) ||
-            RegExp(filter.toLowerCase()).test(item.tecnico.nome.toLowerCase())) {
-            console.log(item)
-            return item;
-          }
-        }
-      })
-      return { ...newState, dataFiltred: [...x] };
+      var x = newState.data.filter((item) => { 
+        if (item.status.toLowerCase() == status.toLowerCase()) { 
+          if ( 
+            RegExp(filter.toLowerCase()).test(item.nomeOs.toLowerCase()) || 
+            RegExp(filter.toLowerCase()).test(item.numeroOs.toLowerCase()) || 
+            RegExp(filter.toLowerCase()).test(item.tecnico.nome.toLowerCase())) { 
+            console.log(item) 
+            return item; 
+          } 
+        } 
+      }) 
+      return { ...newState, dataFiltred: [...x] }; 
     }
     default:
       return state;

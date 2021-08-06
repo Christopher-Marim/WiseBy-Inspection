@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -11,26 +11,24 @@ import {
   Dimensions,
   Keyboard,
   Linking,
-} from 'react-native';
+} from "react-native";
 
-import {styles} from './styles';
+import { styles } from "./styles";
 
-import {MaterialCommunityIcons, Entypo} from '@expo/vector-icons'
-import { LinearGradient } from 'expo-linear-gradient';
-import { theme } from '../../global/styles/theme';
-import { useAuth } from '../../hooks/auth';
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { theme } from "../../global/styles/theme";
+import { useAuth } from "../../hooks/auth";
+import { Loader } from "../../components/Loader";
 
+export function SignIn({ navigation }: any) {
+  const { width: wd, height: hg } = Dimensions.get("window");
 
-
-export function SignIn({navigation}:any) {
-
-    const {width:wd, height:hg} = Dimensions.get('window')
-
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
   const [internet, setInternet] = useState();
 
-  const [offset] = useState(new Animated.ValueXY({x: 0, y: 80}));
+  const [offset] = useState(new Animated.ValueXY({ x: 0, y: 80 }));
   const [opacity] = useState(new Animated.Value(0));
   const [LoaderVisible, setVisible] = useState(false);
   const [ModalVisible, setModalVisible] = useState(false);
@@ -38,20 +36,20 @@ export function SignIn({navigation}:any) {
 
   const [imageHeight] = useState(new Animated.Value(1));
 
-  const { user,signed, signIn } = useAuth();
-  
+  const { user, signed, signIn, loading } = useAuth();
+
   async function handleSign() {
-    signIn({login,senha});
+    signIn({ login, senha });
   }
 
-  const keyboardWillHide = (event:any) => {
+  const keyboardWillHide = (event: any) => {
     Animated.timing(imageHeight, {
       duration: 500,
       toValue: 1,
       useNativeDriver: true,
     }).start();
   };
-  const keyboardWillShow = (event:any) => {
+  const keyboardWillShow = (event: any) => {
     Animated.timing(imageHeight, {
       duration: 300,
       toValue: 0.6,
@@ -78,108 +76,116 @@ export function SignIn({navigation}:any) {
   }, []);
 
   useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', keyboardWillShow);
-    Keyboard.addListener('keyboardDidHide', keyboardWillHide);
+    Keyboard.addListener("keyboardDidShow", keyboardWillShow);
+    Keyboard.addListener("keyboardDidHide", keyboardWillHide);
     return () => {
-      Keyboard.removeListener('keyboardDidShow', keyboardWillShow);
-      Keyboard.removeListener('keyboardDidHide', keyboardWillHide);
+      Keyboard.removeListener("keyboardDidShow", keyboardWillShow);
+      Keyboard.removeListener("keyboardDidHide", keyboardWillHide);
     };
   }, []);
 
-
   return (
-      <LinearGradient style={{flex:1}} 
-      
-      colors={[theme.colors.blue, theme.colors.primary]}>
-         <StatusBar
-        barStyle='light-content'
+    <LinearGradient
+      style={{ flex: 1 }}
+      colors={[theme.colors.blue, theme.colors.primary]}
+    >
+      <StatusBar
+        barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
-    <KeyboardAvoidingView style={styles.background}>
-      <View style={styles.containerLogo}>
-        <Animated.Image
-          style={{
-            width: 200,
-            transform: [{scale: imageHeight}],
-            height: 200,
-            borderRadius: 10,
-          }}
-          source={require('../../assets/iconWhite.png')}
-        />
-      </View>
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            opacity: opacity,
-            transform: [{translateY: offset.y}],
-          },
-        ]}>
-        <TextInput
+      <KeyboardAvoidingView style={styles.background}>
+        <View style={styles.containerLogo}>
+          <Animated.Image
+            style={{
+              width: 200,
+              transform: [{ scale: imageHeight }],
+              height: 200,
+              borderRadius: 10,
+            }}
+            source={require("../../assets/iconWhite.png")}
+          />
+        </View>
+        <Animated.View
           style={[
-            styles.input,
+            styles.container,
             {
-              fontSize: 18,
-              width: wd*0.8,
-              height: hg*0.055,
+              opacity: opacity,
+              transform: [{ translateY: offset.y }],
             },
           ]}
-          placeholder="Login"
-          placeholderTextColor="grey"
-          value={login}
-          autoCorrect={false}
-          onChangeText={text => setLogin(text)}
-          keyboardType={'email-address'}
-        />
-        <View style={styles.textInputSenha}>
+        >
           <TextInput
             style={[
               styles.input,
               {
                 fontSize: 18,
-                width: wd*0.8,
-                height: hg*0.055,
+                width: wd * 0.8,
+                height: hg * 0.055,
               },
             ]}
-            placeholder="Senha"
+            placeholder="Login"
             placeholderTextColor="grey"
+            value={login}
             autoCorrect={false}
-            value={senha}
-            onChangeText={text => setSenha(text)}
-            secureTextEntry={PasswordVisible}
+            onChangeText={(text) => setLogin(text)}
+            keyboardType={"email-address"}
           />
-          <TouchableOpacity
-            style={[styles.buttonEye,{top:10}]}
-            onPress={() => {
-              setPasswordVisible(!PasswordVisible);
-            }}>
-            {!PasswordVisible && (
-              <Entypo name="eye" size={25} color={theme.colors.blue}/>
-            )}
-            {PasswordVisible && (
-              <MaterialCommunityIcons name="eye-off-outline" size={25} color={theme.colors.gray} />
-            )}
-          </TouchableOpacity>
-        </View>
+          <View style={styles.textInputSenha}>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  fontSize: 18,
+                  width: wd * 0.8,
+                  height: hg * 0.055,
+                },
+              ]}
+              placeholder="Senha"
+              placeholderTextColor="grey"
+              autoCorrect={false}
+              value={senha}
+              onChangeText={(text) => setSenha(text)}
+              secureTextEntry={PasswordVisible}
+            />
+            <TouchableOpacity
+              style={[styles.buttonEye, { top: 10 }]}
+              onPress={() => {
+                setPasswordVisible(!PasswordVisible);
+              }}
+            >
+              {!PasswordVisible && (
+                <Entypo name="eye" size={25} color={theme.colors.blue} />
+              )}
+              {PasswordVisible && (
+                <MaterialCommunityIcons
+                  name="eye-off-outline"
+                  size={25}
+                  color={theme.colors.gray}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <TouchableOpacity
-          style={[styles.btnSubmit, {width: wd*0.8,
-            height: hg*0.055,}]}
-          onPress={handleSign}>
-          <Text style={[styles.submitText, {fontSize:18}]}>
-            Acessar
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btnSolicit}
-          onPress={() => {
-            Linking.openURL('https://www.etm.srv.br');
-          }}>
-          <Text style={[styles.solicitText, {fontSize: 14}]}>Precisa de ajuda?</Text>
-        </TouchableOpacity>
-      </Animated.View>
-    </KeyboardAvoidingView>
+          <TouchableOpacity
+            style={[styles.btnSubmit, { width: wd * 0.8, height: hg * 0.055 }]}
+            onPress={handleSign}
+          >
+            <Text style={[styles.submitText, { fontSize: 18 }]}>Acessar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btnSolicit}
+            onPress={() => {
+              Linking.openURL("https://www.etm.srv.br");
+            }}
+          >
+            <Text style={[styles.solicitText, { fontSize: 14 }]}>
+              Precisa de ajuda?
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </KeyboardAvoidingView>
+      {loading && <Loader />}
     </LinearGradient>
   );
 }

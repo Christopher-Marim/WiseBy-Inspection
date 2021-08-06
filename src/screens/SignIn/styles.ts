@@ -50,6 +50,6 @@ export const styles = StyleSheet.create({
   buttonEye:{
     position:'absolute',
     right:10,
-    
-  }
+  },
+
 });
