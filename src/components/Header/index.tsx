@@ -13,6 +13,7 @@ import {
 import { theme } from "../../global/styles/theme";
 import { styles } from "./styles";
 
+import { useNavigation, DrawerActions  } from '@react-navigation/native';
 import { useDispatch } from "react-redux";
 import {
   removeOS,
@@ -27,6 +28,7 @@ export function Header() {
   const [searchText, setSearchText] = useState(``);
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const textInputRef = useRef<TextInput>(null);
 
   //sempre que renderizado componente é feito o filtro com as OS pendentes 
@@ -75,7 +77,7 @@ export function Header() {
         <View style={styles.wrapper}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => dispatch(removeOS(0))}
+            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           >
             <Ionicons name="menu" size={35} color={theme.colors.titleColor} />
           </TouchableOpacity>

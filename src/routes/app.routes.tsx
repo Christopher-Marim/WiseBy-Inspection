@@ -1,14 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { DrawerScreens } from "./Drawer";
+import { AppScreens, RootStackParamList } from "./types";
 
-import { Home } from "../screens/Home";
-
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export function AppRoutes() {
   return (
-    <Stack.Navigator headerMode={"none"}>
-        <Stack.Screen name="home" component={Home} />
-      </Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false}}>
+      <Stack.Screen name={'DrawerScreens'} component={DrawerScreens} />
+    </Stack.Navigator>
   );
 }
