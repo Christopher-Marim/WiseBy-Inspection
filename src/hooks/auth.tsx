@@ -4,8 +4,11 @@ import * as auth from '../services/auth';
 import { netInfo } from '../utils/netInfo';
 
 interface User {
+  nome: string;
   login: string;
   senha: string;
+  systemUnitId: string;
+  systemUserId: string;
 }
 
 interface RequestSignIn {

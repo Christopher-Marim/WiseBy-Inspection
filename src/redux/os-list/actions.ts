@@ -1,11 +1,18 @@
-import { AddOSAction, Responsavel, RemoveOSAction, ToggleFilterOSAction, SearchFilterOSAction } from "../types";
+import { 
+    AddOSAction, 
+    Responsavel, 
+    RemoveOSAction, 
+    ToggleFilterOSAction, 
+    SearchFilterOSAction, 
+    SetCurrentOSAction } from "../types";
 
 export enum OS_LIST_ACTION_TYPES {
     ADD_OS = 'OS_LIST/ADD_OS',
     REMOVE_OS = 'OS_LIST/REMOVE_OS',
     UPDATE_OS = 'OS_LIST/UPDATE_OS',
     FILTER_OS = 'OS_LIST/TOGGLE_FILTER_OS',
-    SEARCH_OS = 'OS_LIST/SEARCH_OS'
+    SEARCH_OS = 'OS_LIST/SEARCH_OS',
+    SET_CURRENT_OS = 'OS_LIST/SET_CURRENT_OS ',
 }
 
 export const addOS = (
@@ -31,12 +38,16 @@ export const removeOS = (index: number): RemoveOSAction => ({
     type: OS_LIST_ACTION_TYPES.REMOVE_OS,
     index
 })
-export const toggleFilterOs = (filter: string): ToggleFilterOSAction => ({
+export const toggleFilterOs = (filterFinish: boolean): ToggleFilterOSAction => ({
     type: OS_LIST_ACTION_TYPES.FILTER_OS,
-    filter
+    filterFinish
 })
-export const searchFilterOs = (filter: string, status: string): SearchFilterOSAction => ({
+export const searchFilterOs = (filter: string, filterFinish: boolean): SearchFilterOSAction => ({
     type: OS_LIST_ACTION_TYPES.SEARCH_OS,
     filter,
-    status,
+    filterFinish,
+})
+export const setCurrentOs = (id: string): SetCurrentOSAction => ({
+    type: OS_LIST_ACTION_TYPES.SET_CURRENT_OS,
+    id,
 })

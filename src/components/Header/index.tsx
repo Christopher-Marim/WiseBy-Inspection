@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import {
   View,
@@ -8,13 +8,19 @@ import {
   TextInput,
   Animated,
   BackHandler,
-  Alert
+  Alert,
 } from "react-native";
 import { theme } from "../../global/styles/theme";
 import { styles } from "./styles";
 
-import { useNavigation, DrawerActions  } from '@react-navigation/native';
+import {
+  useNavigation,
+  DrawerActions,
+  useFocusEffect,
+  useRoute,
+} from "@react-navigation/native";
 import { useDispatch } from "react-redux";
+
 import {
   removeOS,
   searchFilterOs,
@@ -28,12 +34,13 @@ export function Header() {
   const [searchText, setSearchText] = useState(``);
 
   const dispatch = useDispatch();
+  const route = useRoute();
   const navigation = useNavigation();
   const textInputRef = useRef<TextInput>(null);
 
-  //sempre que renderizado componente é feito o filtro com as OS pendentes 
+  //sempre que renderizado componente é feito o filtro com as OS pendentes
   useEffect(() => {
-    dispatch(toggleFilterOs("pendente"));
+    dispatch(toggleFilterOs(false));
   }, []);
 
   // Aniamção para a barra de Pesquisa
@@ -43,9 +50,8 @@ export function Header() {
       toValue: 1,
       useNativeDriver: true,
     }).start();
-
   };
-//função para focar no TextInput
+  //função para focar no TextInput
   const getFocusInput = () => {
     if (textInputRef && textInputRef.current) {
       textInputRef.current.focus();
@@ -54,22 +60,36 @@ export function Header() {
 
   //Se o botão de voltar do celular for pressionado, caso a barra de pequisal esteja ativa irá fechar ela,
   // caso não, aparecerá um alerta de confimação para sair do app
-  BackHandler.addEventListener('hardwareBackPress', ()=>{
-    if (searchActive){
-      setSearchActive(false)
-      return true;
-    }
-    else {
-      Alert.alert("Espere", "Deseja mesmo sair da aplicação?", [
-        {
-          text: "Cancelar",
-          onPress: () => null,
-          style: "cancel"
-        },
-        { text: "Sim", onPress: () => BackHandler.exitApp() }
-      ]);
-    }
-  })
+
+   function onBackPress() {
+   
+      if (route.name === "home") {
+        if (searchActive) {
+          setSearchActive(false);
+          return true;
+        } else {
+          Alert.alert("Espere", "Deseja mesmo sair da aplicação?", [
+            {
+              text: "Cancelar",
+              onPress: () => null,
+              style: "cancel",
+            },
+            { text: "Sim", onPress: () => BackHandler.exitApp() },
+          ]);
+          return true;
+        }
+      }
+    
+  }
+  
+  useFocusEffect(
+    useCallback(() => {
+      BackHandler.addEventListener("hardwareBackPress",  onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [onBackPress])
+  );
 
   return (
     <View style={styles.container}>
@@ -90,13 +110,13 @@ export function Header() {
             <TextInput
               ref={textInputRef}
               style={[styles.textInput2]}
-              placeholder={'Filtro...'}
+              placeholder={"Filtro..."}
               onChangeText={(text) => {
                 setSearchText(text);
                 if (filterActive) {
-                  dispatch(searchFilterOs(text, "pendente"));
+                  dispatch(searchFilterOs(text, false));
                 } else {
-                  dispatch(searchFilterOs(text, "em andamento"));
+                  dispatch(searchFilterOs(text, true));
                 }
               }}
             />
@@ -107,12 +127,14 @@ export function Header() {
           onPress={() => {
             setSearchActive(!searchActive), searchWillShow();
 
-            setTimeout(()=>{getFocusInput()},150)
+            setTimeout(() => {
+              getFocusInput();
+            }, 150);
             if (searchActive) {
               if (filterActive) {
-                dispatch(toggleFilterOs("pendente"));
+                dispatch(toggleFilterOs(false));
               } else {
-                dispatch(toggleFilterOs("Em andamento"));
+                dispatch(toggleFilterOs(true));
               }
             }
           }}
@@ -131,7 +153,7 @@ export function Header() {
           ]}
           onPress={() => {
             filterActive ? null : setFilterActive(!filterActive),
-              dispatch(toggleFilterOs("pendente"));
+              dispatch(toggleFilterOs(false));
           }}
         >
           <Text
@@ -153,7 +175,7 @@ export function Header() {
           ]}
           onPress={() => {
             !filterActive ? null : setFilterActive(!filterActive),
-              dispatch(toggleFilterOs("em andamento"));
+              dispatch(toggleFilterOs(true));
           }}
         >
           <Text

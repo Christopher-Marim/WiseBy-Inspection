@@ -1,21 +1,17 @@
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentComponentProps } from "@react-navigation/drawer";
 
 import { Home } from "../screens/Home";
 import { AppScreens } from "./types";
 import { DrawerContent } from "../components/DrawerContent";
 
-type RootStackParamList = {
-  home: undefined;
-};
-
-const { Navigator, Screen } = createDrawerNavigator<RootStackParamList>();
+const { Navigator, Screen } = createDrawerNavigator();
 
 export const DrawerScreens = () => {
   return (
     <Navigator 
     screenOptions={{ headerShown: false }}
-    drawerContent={(props:any) => <DrawerContent {...props}/>}
+    drawerContent={(props:DrawerContentComponentProps) => <DrawerContent {...props}/>}
     >
       <Screen name={AppScreens.home} component={Home} />
     </Navigator>

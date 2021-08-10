@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Linking, Text } from "react-native";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps } from "@react-navigation/drawer";
 import {
   Avatar,
   Title,
@@ -14,8 +14,12 @@ import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { styles } from "./styles";
 import { useAuth } from "../../hooks/auth";
 import { theme } from "../../global/styles/theme";
+import { AppScreens } from "../../routes/types";
+import { useNavigation } from "@react-navigation/native";
 
-export function DrawerContent(props: any) {
+
+
+export function DrawerContent(props: DrawerContentComponentProps) {
   const [nome, setnome] = useState("Usuário");
   const [loaderVisiBle, setLoaderVisible] = useState(false);
   const [snackVisible, setSnackVisible] = useState(false);
@@ -32,13 +36,15 @@ export function DrawerContent(props: any) {
 
   const getNomeEmpresa = async () => {};
 
+  const navigation = useNavigation();
+
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate("Profile");
+              
             }}
           >
             <View style={styles.userInfoSection}>
@@ -75,7 +81,6 @@ export function DrawerContent(props: any) {
                 title="Notificações"
                 titleStyle={{ fontSize: 16 }}
                 onPress={() => {
-                  props.navigation.navigate("NotificationScreen");
                 }}
               />
 
@@ -94,7 +99,7 @@ export function DrawerContent(props: any) {
                 title="Lista de OS"
                 titleStyle={{ fontSize: 16 }}
                 onPress={() => {
-                  props.navigation.navigate("JourneyList");
+                 navigation.navigate('home')
                 }}
               />
 
@@ -117,7 +122,6 @@ export function DrawerContent(props: any) {
                   title="Perfil"
                   titleStyle={{ fontSize: 16 }}
                   onPress={() => {
-                    props.navigation.navigate("Profile");
                   }}
                 />
               </List.Accordion>

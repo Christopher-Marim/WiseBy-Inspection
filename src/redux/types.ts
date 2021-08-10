@@ -9,18 +9,45 @@ export type Responsavel = {
   systemUnitId: string;
 };
 
+export type Fotos = {
+nome?:string,
+conteudo:string,
+}
+
+export type CheckList = 
+{
+  tarefa:string,
+  status:string,
+  fotos?:Fotos[],
+  dataInicio?:string,
+  dataFim?:string,
+  latitude?:string,
+  longitude?: string,
+  }
+
 export type OS = {
-  id: string;
-  nomeOs: string;
-  numeroOs: string;
-  dataOs: string;
-  tecnico: Responsavel;
-  status: string;
+  
+    id:string,
+    idTecnico:string,
+    nomeOs:string,
+    numeroOs:string,
+    planta?:string,
+    statusOs:string,
+    dataInicioPrevista:string,
+    dataFimPrevista:string,
+    dataInicioTecnico?:string,
+    dataFimTecnico?:string,
+    checkList?:CheckList[],
+    latitude?:string,
+    longitude?: string,
+    assinatura?: string
+    
 }
 
 export type OSListState = {
   data: OS[],
-  dataFiltred: OS[]
+  dataFiltred: OS[],
+  currentOs:OS,
 };
 
 export type AddOSAction = {
@@ -38,13 +65,17 @@ export type RemoveOSAction = {
 }
 export type ToggleFilterOSAction = {
   type: string;
-  filter: string;
+  filterFinish: boolean;
 }
 
 export type SearchFilterOSAction = {
   type: string;
   filter: string;
-  status: string;
+  filterFinish: boolean;
+}
+export type SetCurrentOSAction = {
+  type: string;
+  id:string
 }
 
-export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction;
+export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction| SetCurrentOSAction;

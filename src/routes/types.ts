@@ -1,7 +1,4 @@
 export enum AppScreens {
     home = "home",
+    currentOs = "CurrentOs"
   }
-  
- export type RootStackParamList = {
-    DrawerScreens: undefined;
-  };
