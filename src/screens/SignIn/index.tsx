@@ -87,7 +87,7 @@ export function SignIn({ navigation }: any) {
   return (
     <LinearGradient
       style={{ flex: 1 }}
-      colors={[theme.colors.blue, theme.colors.primary]}
+      colors={[theme.colors.SignInLinear1, theme.colors.SignInLinear2]}
     >
       <StatusBar
         barStyle="light-content"
@@ -155,7 +155,7 @@ export function SignIn({ navigation }: any) {
               }}
             >
               {!PasswordVisible && (
-                <Entypo name="eye" size={25} color={theme.colors.blue} />
+                <Entypo name="eye" size={25} color={'#0359FF'} />
               )}
               {PasswordVisible && (
                 <MaterialCommunityIcons

@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Roboto',
         marginLeft: 12,
-        color: theme.colors.titleColor
+        
     },
     button: {
         justifyContent: 'center',

@@ -19,13 +19,14 @@ import {
   useFocusEffect,
   useRoute,
 } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   removeOS,
   searchFilterOs,
   toggleFilterOs,
 } from "../../redux/os-list/actions";
+import { AppState } from "../../redux/types";
 
 export function Header() {
   const [textInputWidth] = useState(new Animated.Value(0));
@@ -37,6 +38,9 @@ export function Header() {
   const route = useRoute();
   const navigation = useNavigation();
   const textInputRef = useRef<TextInput>(null);
+
+  const statusDarkMode = useSelector((state:AppState) => state.darkModeContextReducer)
+  const themes = statusDarkMode? theme.colors_dark : theme.colors
 
   //sempre que renderizado componente é feito o filtro com as OS pendentes
   useEffect(() => {
@@ -99,9 +103,9 @@ export function Header() {
             style={styles.button}
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           >
-            <Ionicons name="menu" size={35} color={theme.colors.titleColor} />
+            <Ionicons name="menu" size={35} color={themes.titleColor} />
           </TouchableOpacity>
-          <Text style={styles.title}>Lista de OS</Text>
+          <Text style={[styles.title, {color: themes.titleColor}]}>Lista de OS</Text>
         </View>
         {searchActive && (
           <Animated.View
@@ -139,7 +143,7 @@ export function Header() {
             }
           }}
         >
-          <Ionicons name="search" size={30} color={theme.colors.titleColor} />
+          <Ionicons name="search" size={30} color={themes.titleColor} />
         </TouchableOpacity>
       </View>
       <View style={styles.filterButtons}>
@@ -148,7 +152,7 @@ export function Header() {
             styles.buttonFilter,
             filterActive && {
               borderBottomWidth: 2,
-              borderBottomColor: theme.colors.blue,
+              borderBottomColor: themes.blue,
             },
           ]}
           onPress={() => {
@@ -159,7 +163,7 @@ export function Header() {
           <Text
             style={[
               styles.textButtonFilter,
-              filterActive && { color: theme.colors.blue },
+              filterActive && { color: themes.blue },
             ]}
           >
             PENDENTES
@@ -170,7 +174,7 @@ export function Header() {
             styles.buttonFilter,
             !filterActive && {
               borderBottomWidth: 2,
-              borderBottomColor: theme.colors.blue,
+              borderBottomColor: themes.blue,
             },
           ]}
           onPress={() => {
@@ -181,7 +185,7 @@ export function Header() {
           <Text
             style={[
               styles.textButtonFilter,
-              !filterActive && { color: theme.colors.blue },
+              !filterActive && { color: themes.blue },
             ]}
           >
             FINALIZADOS

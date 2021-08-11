@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
   btnSubmit: {
-    backgroundColor: theme.colors.blue,
+    backgroundColor: '#0359FF',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 7,

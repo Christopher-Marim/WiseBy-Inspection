@@ -1,6 +1,7 @@
 
 export type AppState = {
   osList: OSListState,
+  darkModeContextReducer:boolean,
 }
 
 export type Responsavel = {
@@ -79,3 +80,10 @@ export type SetCurrentOSAction = {
 }
 
 export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction| SetCurrentOSAction;
+
+// DarkMode Type
+
+export type SetDarkModeAction = {
+  type: string;
+  status:boolean
+}

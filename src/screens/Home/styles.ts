@@ -5,17 +5,15 @@ import { theme } from '../../global/styles/theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
     alignItems: "center"
   },
   header: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: getStatusBarHeight(),
+    paddingTop:30,
     paddingHorizontal: 10,
-    backgroundColor: theme.colors.white,
-    height: Dimensions.get('window').height*.1
+    height: Dimensions.get('window').height*.12
   },
   search: {
     paddingHorizontal: 10,

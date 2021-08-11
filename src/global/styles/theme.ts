@@ -1,24 +1,67 @@
+import { statusDarkMode } from "../../utils/darkmodeStatus";
+
+//const  statusDark = await  statusDarkMode()
+
+
+import React from "react"
+
+
+
 export const theme = {
   colors: {
     primary: '#000B47',
     secondary: '#FFFFFF',
-    background: '#f0f0f0',
+    background:   '#f0f0f0',
     gray: '#939393',
-    blue: '#0359FF',
+    blue:   '#0359FF',
     red: '#CD0202',
     green: '#019607',
     white: '#ffffff',
-   
+
     overlay: 'rgba(0,0,0,0.7)',
-    titleColor:'#000B47',
-    subFonts:'#939393',
+    titleColor:   '#000B47',
+    subFonts:   '#939393',
     highlight: '#ABB1CC',
     heading: '#DDE3F0',
     line: '#991F36',
     on: '#32BD50',
 
-    OSLiner1: '#FFFFFF',
-    OSLiner2: '#FFFFFF',
+    HeaderLinear1:   '#FFFFFF',
+    HeaderLinear2:   '#FFFFFF',
+
+    OSLiner1:   '#FFFFFF',
+    OSLiner2:  '#FFFFFF',
+
+    SignInLinear1:  '#0359ff' ,
+    SignInLinear2:  '#000B47' ,
+
+  },
+  colors_dark: {
+    primary: '#000B47',
+    secondary: '#FFFFFF',
+    background:  '#292e47',
+    red: '#CD0202',
+    green: '#019607',
+    gray: '#939393',
+    blue:  '#FFFFFF',
+    white: '#ffffff',
+
+    overlay: 'rgba(0,0,0,0.7)',
+    titleColor:  '#FFFFFF', 
+    subFonts:  '#FFFFFF' ,
+    highlight: '#ABB1CC',
+    heading: '#DDE3F0',
+    line: '#991F36',
+    on: '#32BD50',
+
+    HeaderLinear1:  '#0046cc' ,
+    HeaderLinear2:  '#000B47',
+
+    OSLiner1:  '#0046cc' ,
+    OSLiner2:  '#000B47',
+
+    SignInLinear1:  '#0359ff' ,
+    SignInLinear2:  '#000B47' ,
 
   },
 

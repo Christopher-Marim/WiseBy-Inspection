@@ -15,11 +15,7 @@ export default function App() {
     <NavigationContainer>
     <AuthProvider>
     <Provider store = {store}>
-    <StatusBar
-        barStyle='dark-content'
-        backgroundColor={theme.colors.secondary}
-        translucent
-      />
+  
       <Routes/>
       </Provider>
     </AuthProvider>
