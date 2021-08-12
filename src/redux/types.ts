@@ -1,3 +1,4 @@
+import { OS_LIST_ACTION_TYPES } from "./os-list/actions";
 
 export type AppState = {
   osList: OSListState,
@@ -11,12 +12,14 @@ export type Responsavel = {
 };
 
 export type Fotos = {
+id:string
 nome?:string,
 conteudo:string,
 }
 
 export type CheckList = 
 {
+  id:string
   tarefa:string,
   status:string,
   fotos?:Fotos[],
@@ -57,7 +60,7 @@ export type AddOSAction = {
 }
 export type UpdateOSAction = {
   type: string;
-  index: number;
+  id: string;
   osData: OS;
 }
 export type RemoveOSAction = {
@@ -78,8 +81,13 @@ export type SetCurrentOSAction = {
   type: string;
   id:string
 }
+export type ChangeStatusOSAction = {
+  type: string;
+  id:string,
+  status:string
+}
 
-export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction| SetCurrentOSAction;
+export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction| SetCurrentOSAction| ChangeStatusOSAction ;
 
 // DarkMode Type
 
