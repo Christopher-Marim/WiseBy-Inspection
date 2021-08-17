@@ -1,13 +1,11 @@
 import React from "react";
-import { Routes } from "./src/routes";
-import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import store from "./src/redux/store";
 import { Provider } from "react-redux";
 
-import { AuthProvider } from "./src/hooks/auth";
 import { ReduxProvider } from "./src/hooks/state";
-import { theme } from "./src/global/styles/theme";
+import { AuthProvider } from "./src/hooks/auth";
+import { Routes } from "./src/routes";
+import store from "./src/redux/store";
 
 export default function App() {
   return (

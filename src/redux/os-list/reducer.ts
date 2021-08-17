@@ -21,7 +21,7 @@ const initialState: OSListState = {
           status: 'Pendente',
           dataFim: undefined,
           dataInicio: undefined,
-          fotos: undefined,
+          fotos: [],
           latitude: undefined,
           longitude: undefined
         }
@@ -48,7 +48,7 @@ const initialState: OSListState = {
           status: 'Pendente',
           dataFim: undefined,
           dataInicio: undefined,
-          fotos: undefined,
+          fotos: [],
           latitude: undefined,
           longitude: undefined
         }
@@ -78,6 +78,7 @@ const initialState: OSListState = {
           fotos: [
             {
               id: '1',
+              nome:'Sala1',
               conteudo: 'https://cdn.jornaldebrasilia.com.br/wp-content/uploads/2021/05/04124839/salaTV01.jpg'
             },
             {

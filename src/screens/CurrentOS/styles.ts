@@ -79,5 +79,22 @@ export const styles = StyleSheet.create({
       wraperFotos:{
           flexDirection: 'row',
           padding: 10,
+      },
+      buttonsCheckList:{
+          borderTopWidth:2,
+          justifyContent:'space-around',
+          flexDirection: 'row',
+          marginHorizontal:10,
+          marginTop:20
+      },
+      buttonCheckList:{
+          alignItems:'center',
+          flexDirection: 'row',
+          padding: 10,
+      },
+      textButtonCheckList:{
+          marginHorizontal:5,
+          fontSize:16,
+          fontWeight:'500'
       }
 })

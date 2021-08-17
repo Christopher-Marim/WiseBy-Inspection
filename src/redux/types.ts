@@ -22,7 +22,7 @@ export type CheckList =
   id:string
   tarefa:string,
   status:string,
-  fotos?:Fotos[],
+  fotos:Fotos[],
   dataInicio?:string,
   dataFim?:string,
   latitude?:string,
