@@ -35,7 +35,7 @@ export function ListaOs() {
     });
 
     setListaOrdenada(result);
-  }, );
+  });
   
   //const formatteddate = (data:string)=>
   //moment(data).locale('pt-br').format('DD/MM/YYYY');

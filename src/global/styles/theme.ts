@@ -35,6 +35,10 @@ export const theme = {
     SignInLinear1:  '#0359ff' ,
     SignInLinear2:  '#000B47' ,
 
+    buttonSelected: '#036CEB',
+    buttonNotSelected: '#939393',
+
+
   },
   colors_dark: {
     primary: '#000B47',
@@ -62,6 +66,9 @@ export const theme = {
 
     SignInLinear1:  '#0359ff' ,
     SignInLinear2:  '#000B47' ,
+
+    buttonSelected: '#036CEB',
+    buttonNotSelected: '#939393',
 
   },
 

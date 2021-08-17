@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Linking, Text } from "react-native";
-import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps } from "@react-navigation/drawer";
+import {
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerContentComponentProps,
+} from "@react-navigation/drawer";
 import {
   Avatar,
   Title,
@@ -9,6 +13,7 @@ import {
   List,
   Switch,
 } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { styles } from "./styles";
@@ -16,8 +21,8 @@ import { useAuth } from "../../hooks/auth";
 import { theme } from "../../global/styles/theme";
 import { AppScreens } from "../../routes/types";
 import { useNavigation } from "@react-navigation/native";
-
-
+import { useDispatch } from "react-redux";
+import { changeDarkMode } from "../../redux/darkmode/actions";
 
 export function DrawerContent(props: DrawerContentComponentProps) {
   const [nome, setnome] = useState("Usuário");
@@ -28,9 +33,44 @@ export function DrawerContent(props: DrawerContentComponentProps) {
   const [UnitIdEmpresa, setUnitIdEmpresa] = useState();
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  useEffect(() => {
+    getDarkmode();
+  }, []);
+  const dispatch = useDispatch();
 
-  const { signOut } = useAuth();
+  async function getDarkmode() {
+    try {
+      const statusAux = await AsyncStorage.getItem("darkModeStatus");
+      console.log(statusAux)
+      const status = statusAux == "1" ? true : false
+      setIsSwitchOn(status);
+      dispatch(changeDarkMode(status))
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function setDarkmode(status: boolean) {
+   
+    try {
+      if(status ==true){
+        await AsyncStorage.setItem("darkModeStatus", '1');
+      
+      } else {
+        await AsyncStorage.setItem("darkModeStatus", '0');
+
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function onToggleSwitch() {
+    await setDarkmode(!isSwitchOn);
+    getDarkmode();
+  }
+
+  const { signOut, user } = useAuth();
 
   function GetdataVeiculesAndOccurrences() {}
 
@@ -42,11 +82,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <TouchableOpacity
-            onPress={() => {
-              
-            }}
-          >
+          <TouchableOpacity onPress={() => {}}>
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Avatar.Image
@@ -55,10 +91,12 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                 />
                 <View style={{ marginLeft: 15, flexDirection: "column" }}>
                   <Title numberOfLines={1} style={styles.title}>
-                    {nome}
+                    {user?.nome}
                   </Title>
-                  <Caption style={styles.email}>{email}</Caption>
-                  <Caption style={styles.email}>{nomeEmpresa}</Caption>
+                  <Caption numberOfLines={1} style={styles.email}>
+                    {user?.login}
+                  </Caption>
+                  {/*<Caption style={styles.email}>{nomeEmpresa}</Caption>*/}
                 </View>
               </View>
             </View>
@@ -80,8 +118,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                 )}
                 title="Notificações"
                 titleStyle={{ fontSize: 16 }}
-                onPress={() => {
-                }}
+                onPress={() => {}}
               />
 
               <List.Item
@@ -99,7 +136,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                 title="Lista de OS"
                 titleStyle={{ fontSize: 16 }}
                 onPress={() => {
-                 navigation.navigate('home')
+                  props.navigation.navigate("home");
                 }}
               />
 
@@ -121,8 +158,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                 <List.Item
                   title="Perfil"
                   titleStyle={{ fontSize: 16 }}
-                  onPress={() => {
-                  }}
+                  onPress={() => {}}
                 />
               </List.Accordion>
               <List.Item
@@ -165,7 +201,11 @@ export function DrawerContent(props: DrawerContentComponentProps) {
             </List.AccordionGroup>
           </Drawer.Section>
           <View style={styles.wraperSwitch}>
-            <Switch color={theme.colors.primary} value={isSwitchOn} onValueChange={onToggleSwitch}></Switch>
+            <Switch
+              color={theme.colors.primary}
+              value={isSwitchOn}
+              onValueChange={onToggleSwitch}
+            ></Switch>
             <Text>DarkMode</Text>
           </View>
         </View>
@@ -188,4 +228,3 @@ export function DrawerContent(props: DrawerContentComponentProps) {
     </View>
   );
 }
-

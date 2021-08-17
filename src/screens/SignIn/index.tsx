@@ -39,6 +39,7 @@ export function SignIn({ navigation }: any) {
   const { user, signed, signIn, loading } = useAuth();
 
   async function handleSign() {
+    console.log(loading)
     signIn({ login, senha });
   }
 

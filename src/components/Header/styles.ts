@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Roboto',
         marginLeft: 12,
-        
+
     },
     button: {
         justifyContent: 'center',
@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
+
     },
     wrapper: {
         flexDirection: 'row',
@@ -36,12 +37,14 @@ export const styles = StyleSheet.create({
     filterButtons: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop: 10
+        marginHorizontal: -10,
+        marginTop: 10
 
     },
     buttonFilter: {
         alignItems: 'center',
-        width: 110,
+        width: '50%',
+        padding: 5,
     },
     textButtonFilter: {
         fontSize: 15,
@@ -63,7 +66,7 @@ export const styles = StyleSheet.create({
     textInput2: {
         backgroundColor: theme.colors.white,
         height: '100%',
-        paddingRight:25,
+        paddingRight: 25,
         fontSize: 16
     }
 });

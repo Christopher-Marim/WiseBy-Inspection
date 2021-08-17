@@ -1,10 +1,16 @@
-import { 
-    AddOSAction, 
-    Responsavel, 
-    RemoveOSAction, 
-    ToggleFilterOSAction, 
-    SearchFilterOSAction, 
-    SetCurrentOSAction } from "../types";
+import {
+    AddOSAction,
+    Responsavel,
+    RemoveOSAction,
+    ToggleFilterOSAction,
+    SearchFilterOSAction,
+    SetCurrentOSAction,
+    CheckList,
+    ChangeStatusOSAction,
+    Fotos,
+    UpdateOSAction,
+    OS
+} from "../types";
 
 export enum OS_LIST_ACTION_TYPES {
     ADD_OS = 'OS_LIST/ADD_OS',
@@ -13,24 +19,41 @@ export enum OS_LIST_ACTION_TYPES {
     FILTER_OS = 'OS_LIST/TOGGLE_FILTER_OS',
     SEARCH_OS = 'OS_LIST/SEARCH_OS',
     SET_CURRENT_OS = 'OS_LIST/SET_CURRENT_OS ',
+    CHANGE_STATUS_OS = 'OS_LIST/CHANGE_STATUS_OS ',
 }
 
 export const addOS = (
     id: string,
+    idTecnico: string,
     nomeOs: string,
     numeroOs: string,
-    dataOs: string,
-    tecnico: Responsavel,
-    status: string,
+    planta: string,
+    statusOs: string,
+    dataInicioPrevista: string,
+    dataFimPrevista: string,
+    dataInicioTecnico: string,
+    dataFimTecnico: string,
+    checkList: CheckList[],
+    latitude: string,
+    longitude: string,
+    assinatura: string
 ): AddOSAction => ({
     type: OS_LIST_ACTION_TYPES.ADD_OS,
     osData: {
         id,
+        idTecnico,
         nomeOs,
         numeroOs,
-        dataOs,
-        tecnico,
-        status
+        planta,
+        statusOs,
+        dataInicioPrevista,
+        dataFimPrevista,
+        dataInicioTecnico,
+        dataFimTecnico,
+        checkList,
+        latitude,
+        longitude,
+        assinatura,
     }
 });
 
@@ -51,3 +74,13 @@ export const setCurrentOs = (id: string): SetCurrentOSAction => ({
     type: OS_LIST_ACTION_TYPES.SET_CURRENT_OS,
     id,
 })
+export const changeStatusOs = (id: string, status: string): ChangeStatusOSAction => ({
+    type: OS_LIST_ACTION_TYPES.CHANGE_STATUS_OS,
+    id,
+    status,
+})
+export const UpdateOS = (id: string, osData: OS,): UpdateOSAction => ({
+        type: OS_LIST_ACTION_TYPES.UPDATE_OS,
+        id,
+        osData
+    })

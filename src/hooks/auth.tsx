@@ -54,7 +54,9 @@ const AuthProvider: React.FC = ({children}) => {
   },[]);
 
   async function signIn({login,senha}:RequestSignIn)  {
+    setLoading(true)
     const response = await auth.signIn({login,senha});
+    setLoading(false)
     setUser(response.user);
 
     await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));

@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         width: "100%",
         fontWeight: "bold",
-        marginTop: 3,
+        marginBottom:-5,
         color: "white",
     },
     caption: {
@@ -54,10 +54,11 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     email: {
-        fontSize: 14,
+        fontSize: 9,
         fontWeight: "bold",
         lineHeight: 14,
         color: "white",
+        width: "100%",
     },
     wraperSwitch: { 
         flexDirection: "row", 
