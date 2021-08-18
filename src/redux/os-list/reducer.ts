@@ -22,6 +22,7 @@ const initialState: OSListState = {
           dataFim: undefined,
           dataInicio: undefined,
           fotos: [],
+          anotacao:'',
           latitude: undefined,
           longitude: undefined
         }

@@ -31,10 +31,18 @@ import { HandleImage } from "../../components/HandleImage";
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
+import { HandleAnotation } from "../../components/HandleAnotation";
+
+type Anotation = {
+  nome: string,
+  texto:string
+}
 
 export function CurrentOS() {
   const [currentFoto, SetCurrentFoto] = useState<Fotos>({} as Fotos);
+  const [currentAnotation, SetCurrentAnotation] = useState<Anotation>({} as Anotation);
   const [visibleImageExtends, setVisibleImageExtends] = useState(false);
+  const [visibleAnotation, setVisibleAnotation] = useState(false);
   const [newImage, setNewImage] = useState(false);
   const [indexCheckList, setIndexCheckList] = useState<number|undefined>();
   const OSaux = useSelector((state: AppState) => state.osList.currentOs);
@@ -100,7 +108,7 @@ export function CurrentOS() {
         })
         setOS({...OS, checkList:[...OS.checkList]})
       }
-      closeModal()
+      closeModalImage()
     } catch (error) {
       alert(error)
     }
@@ -110,10 +118,14 @@ export function CurrentOS() {
     SetCurrentFoto(Foto);
     setVisibleImageExtends(visible);
   };
-  const closeModal = () => {
+  const closeModalImage = () => {
     setVisibleImageExtends(false);
     setNewImage(false)
     setIndexCheckList(undefined)
+  };
+  const closeModalAnotation = () => {
+    setVisibleAnotation(false);
+    
   };
 
   return (
@@ -124,9 +136,16 @@ export function CurrentOS() {
         conteudo={currentFoto.conteudo}
         nome={currentFoto.nome}
         visible={visibleImageExtends}
-        closeModal={() => closeModal()}
+        closeModal={() => closeModalImage()}
         addImage={()=>addImage()}
         newImage={newImage}
+      />
+      <HandleAnotation
+        visible={visibleAnotation}
+        closeModalAnotation={closeModalAnotation}
+        nome={'AAA'}
+        indexCheckList={0}
+        newAnotation={()=>{}}
       />
       <View style={styles.header}>
         <TouchableOpacity
@@ -252,7 +271,9 @@ export function CurrentOS() {
                     { borderColor: themes.gray },
                   ]}
                 >
-                  <TouchableOpacity style={styles.buttonCheckList}>
+                  <TouchableOpacity
+                  onPress={() =>setVisibleAnotation(true)}
+                   style={styles.buttonCheckList}>
                     <MaterialCommunityIcons
                       name={"clipboard-text"}
                       color={themes.gray}
