@@ -19,20 +19,20 @@ type Props = {
   nome: String;
   indexCheckList?: number;
   visible: boolean;
+  anotationText:string
   closeModalAnotation(): void;
-  newAnotation(): void;
+  newAnotation(text:string): void;
 };
-
 
 
 export function HandleAnotation({
   visible,
   nome,
+  anotationText,
   closeModalAnotation,
   newAnotation,
 }: Props) {
   const [anotation, setAnotation] = useState('');
-  const [keyboardStatus, setKeyboardStatus] = useState('');
   const textInputRef = useRef<TextInput>(null);
 
   const getFocusInput = () => {
@@ -43,6 +43,7 @@ export function HandleAnotation({
 
   useEffect(() => {
     if(visible){
+      setAnotation(anotationText)
       setTimeout(() => {
         getFocusInput();
       }, 100);
@@ -57,7 +58,7 @@ export function HandleAnotation({
     >
       <View style={styles.wrapper}>
         <View style={styles.header}>
-          <Text style={styles.nomeAnotation}>Anotação</Text>
+          <Text style={styles.nomeAnotation}>{nome?nome:'Anotação'}</Text>
           <TouchableOpacity
             style={styles.buttonClose}
             onPress={closeModalAnotation}
@@ -75,7 +76,7 @@ export function HandleAnotation({
          />
         <View style={styles.buttons}>
           <TouchableOpacity
-            onPress={newAnotation}
+            onPress={()=>{newAnotation(anotation),setAnotation('')}}
             style={[
               styles.button,
               { backgroundColor: theme.colors.buttonSelected },

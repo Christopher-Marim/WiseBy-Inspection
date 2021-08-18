@@ -113,6 +113,17 @@ export function CurrentOS() {
       alert(error)
     }
   }
+  function addAnnotation(text:string){
+    try {
+      if(OS.checkList ){
+        OS.checkList[indexCheckList?indexCheckList:0].anotacao = text
+        setOS({...OS, checkList:[...OS.checkList]})
+      }
+      closeModalAnotation()
+    } catch (error) {
+      alert(error)
+    }
+  }
 
   const handleClickImage = (Foto: Fotos, visible: boolean) => {
     SetCurrentFoto(Foto);
@@ -125,6 +136,7 @@ export function CurrentOS() {
   };
   const closeModalAnotation = () => {
     setVisibleAnotation(false);
+    setIndexCheckList(undefined)
     
   };
 
@@ -141,11 +153,12 @@ export function CurrentOS() {
         newImage={newImage}
       />
       <HandleAnotation
+        indexCheckList={indexCheckList}
+        anotationText={currentAnotation.texto}
         visible={visibleAnotation}
         closeModalAnotation={closeModalAnotation}
-        nome={'AAA'}
-        indexCheckList={0}
-        newAnotation={()=>{}}
+        nome={currentAnotation.nome}
+        newAnotation={(text)=>addAnnotation(text)}
       />
       <View style={styles.header}>
         <TouchableOpacity
@@ -272,7 +285,19 @@ export function CurrentOS() {
                   ]}
                 >
                   <TouchableOpacity
-                  onPress={() =>setVisibleAnotation(true)}
+                  onPress={() =>{
+                    setIndexCheckList(index)
+                    if(OS.checkList){
+                      const annotation= OS.checkList[index].anotacao
+                      SetCurrentAnotation({
+                        nome:` Anotação de ${OS.checkList[index].tarefa}`,
+                        texto:annotation?annotation:''
+                      })
+                      console.log(currentAnotation.texto)
+                      setVisibleAnotation(true)
+                    }
+                      
+                  }}
                    style={styles.buttonCheckList}>
                     <MaterialCommunityIcons
                       name={"clipboard-text"}
