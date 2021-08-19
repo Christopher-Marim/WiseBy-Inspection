@@ -33,6 +33,8 @@ import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import { HandleAnotation } from "../../components/HandleAnotation";
+import { InfosCurrentOS } from "../../components/InfosCurrentOS";
+import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
 
 type Anotation = {
   nome: string,
@@ -141,10 +143,6 @@ export function CurrentOS() {
     }
   }
 
-  const handleClickImage = (Foto: Fotos, visible: boolean) => {
-    SetCurrentFoto(Foto);
-    setVisibleImageExtends(visible);
-  };
   const closeModalImage = () => {
     setVisibleImageExtends(false);
     setNewImage(false)
@@ -164,10 +162,10 @@ export function CurrentOS() {
         conteudo={currentFoto.conteudo}
         nome={currentFoto.nome}
         visible={visibleImageExtends}
-        closeModal={() => closeModalImage()}
-        addImage={()=>addImage()}
+        closeModal={closeModalImage}
+        addImage={addImage}
         newImage={newImage}
-        removeImage={()=>removeImage()}
+        removeImage={removeImage}
       />
       <HandleAnotation
         indexCheckList={indexCheckList}
@@ -175,7 +173,7 @@ export function CurrentOS() {
         visible={visibleAnotation}
         closeModalAnotation={closeModalAnotation}
         nome={currentAnotation.nome}
-        newAnotation={(text)=>addAnnotation(text)}
+        newAnotation={addAnnotation}
       />
       <View style={styles.header}>
         <TouchableOpacity
@@ -203,170 +201,20 @@ export function CurrentOS() {
         />
       <ScrollView style={styles.container}>
         <View style={styles.wraper}>
-          <SubTitle text={"Informações da Inspeção"} />
-          <BlankContainer>
-            <View>
-              <Text style={styles.infoTitle}>Número OS</Text>
-              <Text style={[styles.infoText, { color: themes.gray }]}>
-                {OS.numeroOs}
-              </Text>
-              <Text style={styles.infoTitle}>Data da ordem de serviço</Text>
-              <Text style={[styles.infoText, { color: themes.gray }]}>
-                {OS.dataInicioPrevista} - {OS.dataFimPrevista}
-              </Text>
-              <Text style={styles.infoTitle}>Responsavel</Text>
-              <Text style={[styles.infoText, { color: themes.gray }]}>
-                {user?.nome}
-              </Text>
-              <Text style={styles.infoTitle}>Planta</Text>
-              <Text
-                style={[
-                  styles.infoText,
-                  { color: themes.gray, marginBottom: 0 },
-                ]}
-              >
-                {OS.planta}
-              </Text>
-            </View>
-          </BlankContainer>
-          <SubTitle text={"CheckList"} />
-
-          {OS.checkList?.map((checkList, index) => (
-            <BlankContainer key={checkList.id}>
-              <View key={checkList.id}>
-                <Text style={styles.checkListTitle} key={checkList.id}>
-                  {checkList.tarefa}
-                </Text>
-                <View style={styles.buttonGroup}>
-                  <Button
-                    name={"Conforme"}
-                    color={
-                      checkList.status.toLowerCase() == "conforme"
-                        ? themes.buttonSelected
-                        : themes.buttonNotSelected
-                    }
-                    fontColor={"white"}
-                    onPress={() => {
-                      changeCheckListStatus(index, "conforme");
-                    }}
-                  />
-                  <Button
-                    name={"Inconforme"}
-                    color={
-                      checkList.status.toLowerCase() == "inconforme"
-                        ? themes.buttonSelected
-                        : themes.buttonNotSelected
-                    }
-                    fontColor={"white"}
-                    onPress={() => {
-                      changeCheckListStatus(index, "inconforme");
-                    }}
-                  />
-                  <Button
-                    name={"N/A"}
-                    color={
-                      checkList.status.toLowerCase() == "n/a"
-                        ? themes.buttonSelected
-                        : themes.buttonNotSelected
-                    }
-                    fontColor={"white"}
-                    onPress={() => {
-                      changeCheckListStatus(index, "n/a");
-                    }}
-                  />
-                </View>
-                <ScrollView
-                showsHorizontalScrollIndicator={false}
-                 horizontal>
-                  <View style={styles.wraperFotos}>
-                    {/*Renderizar as fotos*/}
-                    {OS.checkList &&
-                      OS.checkList[index].fotos?.map((foto) => (
-                        <TouchableOpacity
-                          key={foto.id}
-                          onPress={() => {handleClickImage(foto, true), setIndexCheckList(index)}}
-                        >
-                          <Image
-                            key={foto.id}
-                            progressiveRenderingEnabled
-                            fadeDuration={1000}
-                            resizeMode={"cover"}
-                            style={styles.stretch}
-                            source={{
-                              uri: `${foto.conteudo}`,
-                            }}
-                          />
-                        </TouchableOpacity>
-                      ))}
-                  </View>
-                </ScrollView>
-                <View style={{width:'100%', alignItems:'flex-end', paddingHorizontal:15}}>
-                <Text style={{color:themes.gray}}>{OS.checkList? OS.checkList[index].fotos.length+'/5':''}</Text>
-                </View>
-                <View
-                  style={[
-                    styles.buttonsCheckList,
-                    { borderColor: themes.gray },
-                  ]}
-                >
-                  <TouchableOpacity
-                  onPress={() =>{
-                    setIndexCheckList(index)
-                    if(OS.checkList){
-                      const annotation= OS.checkList[index].anotacao
-                      SetCurrentAnotation({
-                        nome:` Anotação de ${OS.checkList[index].tarefa}`,
-                        texto:annotation?annotation:''
-                      })
-                      setVisibleAnotation(true)
-                    }
-                      
-                  }}
-                   style={styles.buttonCheckList}>
-                    <MaterialCommunityIcons
-                      name={"clipboard-text"}
-                      color={themes.gray}
-                      size={35}
-                    />
-                    <Text
-                      style={[
-                        styles.textButtonCheckList,
-                        { color: themes.gray },
-                      ]}
-                    >
-                      ANOTAÇÕES
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                  onPress={()=>{
-                    if(OS.checkList)
-                    if(OS.checkList[index].fotos.length <5){
-                      imagePickerCall(index)
-                    }
-                    else{
-                      Alert.alert('Limite de fotos atingido', 'O limite de fotos é 5')
-                    }
-                  }
-                  } 
-                  style={styles.buttonCheckList}>
-                    <MaterialCommunityIcons
-                      name={"camera-plus"}
-                      color={themes.gray}
-                      size={35}
-                    />
-                    <Text
-                      style={[
-                        styles.textButtonCheckList,
-                        { color: themes.gray },
-                      ]}
-                    >
-                      FOTOS
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </BlankContainer>
-          ))}
+          <InfosCurrentOS
+            {...OS}
+          />
+          <ChecklistCurrentOS
+          SetCurrentAnotation={SetCurrentAnotation}
+          SetCurrentFoto={SetCurrentFoto}
+          changeCheckListStatus={changeCheckListStatus}
+          imagePickerCall={imagePickerCall}
+          setVisibleAnotation={setVisibleAnotation}
+          setVisibleImageExtends={setVisibleImageExtends}
+          setIndexCheckList={setIndexCheckList}
+          Os={OS}
+          />
+          
           <SubTitle text={"Ferramentas Utilizadas"}/>
           <BlankContainer>
             <View>
