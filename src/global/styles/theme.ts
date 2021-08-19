@@ -29,6 +29,9 @@ export const theme = {
     HeaderLinear1:   '#FFFFFF',
     HeaderLinear2:   '#FFFFFF',
 
+    CurrentLinear1:  '#FFFFFF' ,
+    CurrentLinear2:  '#FFFFFF',
+
     OSLiner1:   '#FFFFFF',
     OSLiner2:  '#FFFFFF',
 
@@ -60,6 +63,9 @@ export const theme = {
 
     HeaderLinear1:  '#0046cc' ,
     HeaderLinear2:  '#000B47',
+
+    CurrentLinear1:  '#0046cc' ,
+    CurrentLinear2:  '#000B47',
 
     OSLiner1:  '#0046cc' ,
     OSLiner2:  '#000B47',

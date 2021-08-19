@@ -13,14 +13,14 @@ export const styles = StyleSheet.create({
         padding: 10
     },
     header: {
-        height: Dimensions.get('window').height * .07,
         paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        marginTop: getStatusBarHeight(),
-        backgroundColor: theme.colors.secondary
+        height: Dimensions.get('window').height*.10,
+        backgroundColor: theme.colors.secondary,
+        elevation:2
     },
     title: {
         fontSize: 25,

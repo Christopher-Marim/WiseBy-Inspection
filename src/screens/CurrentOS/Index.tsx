@@ -7,6 +7,7 @@ import {
   Image,
   BackHandler,
   Alert,
+  StatusBar,
 } from "react-native";
 
 import {
@@ -113,6 +114,21 @@ export function CurrentOS() {
       alert(error)
     }
   }
+
+  function removeImage(){
+    try {
+      if(OS.checkList ){
+        let indexItemToRemove = OS.checkList[indexCheckList?indexCheckList:0].fotos.findIndex(
+          (x) => x.id == currentFoto.id
+        );
+        OS.checkList[indexCheckList?indexCheckList:0].fotos.splice(indexItemToRemove,1)
+        setOS({...OS, checkList:[...OS.checkList]})
+      }
+      closeModalImage()
+    } catch (error) {
+      alert(error)
+    }
+  }
   function addAnnotation(text:string){
     try {
       if(OS.checkList ){
@@ -151,6 +167,7 @@ export function CurrentOS() {
         closeModal={() => closeModalImage()}
         addImage={()=>addImage()}
         newImage={newImage}
+        removeImage={()=>removeImage()}
       />
       <HandleAnotation
         indexCheckList={indexCheckList}
@@ -176,6 +193,14 @@ export function CurrentOS() {
           <Text style={styles.textButton}>Finalizar</Text>
         </TouchableOpacity>
       </View>
+      <StatusBar
+          barStyle={
+            themes.CurrentLinear1 != "#FFFFFF"
+              ? "dark-content"
+              : "light-content"
+          }
+          translucent
+        />
       <ScrollView style={styles.container}>
         <View style={styles.wraper}>
           <SubTitle text={"Informações da Inspeção"} />
@@ -259,7 +284,7 @@ export function CurrentOS() {
                       OS.checkList[index].fotos?.map((foto) => (
                         <TouchableOpacity
                           key={foto.id}
-                          onPress={() => handleClickImage(foto, true)}
+                          onPress={() => {handleClickImage(foto, true), setIndexCheckList(index)}}
                         >
                           <Image
                             key={foto.id}
@@ -293,7 +318,6 @@ export function CurrentOS() {
                         nome:` Anotação de ${OS.checkList[index].tarefa}`,
                         texto:annotation?annotation:''
                       })
-                      console.log(currentAnotation.texto)
                       setVisibleAnotation(true)
                     }
                       
@@ -343,6 +367,12 @@ export function CurrentOS() {
               </View>
             </BlankContainer>
           ))}
+          <SubTitle text={"Ferramentas Utilizadas"}/>
+          <BlankContainer>
+            <View>
+
+            </View>
+          </BlankContainer>
         </View>
       </ScrollView>
     </View>

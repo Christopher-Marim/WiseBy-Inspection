@@ -18,10 +18,11 @@ type Props = Fotos & {
   visible: boolean;
   closeModal(): void;
   addImage(): void;
+  removeImage():void
   newImage?:boolean
 };
 
-export function HandleImage({ id, conteudo, visible, nome,closeModal,addImage,newImage}: Props) {
+export function HandleImage({ id, conteudo, visible, nome,newImage,closeModal,addImage,removeImage}: Props) {
 
   const [StateOrientation, setStateOrientation] = useState<{ orientation: string }>();
 
@@ -73,7 +74,9 @@ export function HandleImage({ id, conteudo, visible, nome,closeModal,addImage,ne
             <Text>Adicionar Imagem</Text>
           </TouchableOpacity>
           ):(
-          <TouchableOpacity style={[styles.button, {backgroundColor: theme.colors.red}]}>
+          <TouchableOpacity 
+          onPress={removeImage}
+          style={[styles.button, {backgroundColor: theme.colors.red}]}>
             <Text>Remover</Text>
           </TouchableOpacity>
           )}
