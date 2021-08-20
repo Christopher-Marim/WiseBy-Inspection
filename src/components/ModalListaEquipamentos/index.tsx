@@ -31,48 +31,48 @@ export function ModalListaEquipamentos({
 }: Props) {
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([]);
   const [refresh, setRefresh] = useState(false);
-  const [equipamentosSelecionados, setEquipamentosSelecionados] = useState<
-    Equipamento[]
-  >([]);
+
   const [equipamentosAux, setEquipamentosAux] = useState<Equipamento[]>([]);
 
-  /* const textInputRef = useRef<TextInput>(null);
-
-  const getFocusInput = () => {
-    if (textInputRef && textInputRef.current) {
-      textInputRef.current.focus();
-    }
-  }; */
   const response = useSelector((state: AppState) => state.EquipmentList.data);
 
   useEffect(() => {
     if (visible) {
       setEquipamentos(response);
-      //setAnotation(anotationText)
-      setTimeout(() => {
-        //getFocusInput();
-      }, 100);
+      setEquipamentosAux(response);
     }
   }, [visible]);
 
-  const itemSelecionado = (item: Equipamento) => {
-    equipamentosSelecionados.push({ ...item });
-    setEquipamentosSelecionados(equipamentosSelecionados);
-  };
-
+  //quando um item é selecionado, faz-se a busca do index dele para reposicionar ele no inicio do array
   function arraymove(item: Equipamento) {
+    
     const fromIndex = equipamentos.findIndex(
       (equipamento) => equipamento.id == item.id
     );
 
-    var element = equipamentos[fromIndex];
     equipamentos.splice(fromIndex, 1);
-    equipamentos.splice(0, 0, element);
+    equipamentos.splice(item.selecionado?0:fromIndex, 0, item);
+
+    setEquipamentosAux(equipamentos);
     setEquipamentos(equipamentos);
-    setRefresh(true)
+
+    setRefresh(true);
     setTimeout(() => {
-      setRefresh(false)
+      setRefresh(false);
     }, 50);
+  }
+
+  function filterEquipments(text: string) {
+    var equipamentosFiltrados = equipamentosAux.filter((item) => {
+      if (
+        RegExp(text.toLowerCase()).test(item.nomeEquipamento.toLowerCase()) ||
+        RegExp(text.toLowerCase()).test(item.codigoEquipamento.toLowerCase())
+      ) {
+        return item;
+      }
+    });
+
+    setEquipamentos(equipamentosFiltrados);
   }
 
   return (
@@ -83,7 +83,11 @@ export function ModalListaEquipamentos({
     >
       <View style={styles.wrapper}>
         <View style={styles.header}>
-          <TextInput placeholder="Buscar..." style={styles.textInput} />
+          <TextInput
+            onChangeText={(text) => filterEquipments(text)}
+            placeholder="Buscar..."
+            style={styles.textInput}
+          />
         </View>
         <View style={{ width: "100%", flex: 1 }}>
           <FlatList

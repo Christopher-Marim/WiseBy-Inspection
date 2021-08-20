@@ -111,6 +111,7 @@ export type Equipamento = {
   id:string,
   codigoEquipamento:string,
   nomeEquipamento:string,
+  selecionado?:boolean,
 }
 export type EquipamentosOS ={
   id:string,

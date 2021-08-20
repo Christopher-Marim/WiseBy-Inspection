@@ -11,15 +11,28 @@ type Props = {
 }
 
 export function EquipamentoItem({item, itemSelecionado}:Props) {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(item.selecionado==true?true: false);
+
+  function changeStatusItem(status:boolean) {
+    item.selecionado= status
+  }
 
   return (
     <TouchableOpacity
     onPress={() => {
         setChecked(!checked);
         
-        if(checked==false)
-            itemSelecionado(item)
+        if(checked==false){
+          changeStatusItem(true)
+          itemSelecionado(item)
+
+        }
+
+        if(checked==true){
+          changeStatusItem(false)
+          itemSelecionado(item)
+
+        }
         
         
       }}
