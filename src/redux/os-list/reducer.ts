@@ -27,6 +27,7 @@ const initialState: OSListState = {
           longitude: undefined
         }
       ],
+      equipamentos:[],
       latitude: undefined,
       longitude: undefined,
       assinatura: undefined
@@ -54,6 +55,7 @@ const initialState: OSListState = {
           longitude: undefined
         }
       ],
+      equipamentos:[],
       latitude: undefined,
       longitude: undefined,
       assinatura: undefined
@@ -69,6 +71,7 @@ const initialState: OSListState = {
       dataFimPrevista: '16/08/2021',
       dataInicioTecnico: undefined,
       dataFimTecnico: undefined,
+      equipamentos:[],
       checkList: [
         {
           id: '1',

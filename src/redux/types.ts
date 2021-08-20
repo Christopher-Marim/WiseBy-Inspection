@@ -1,8 +1,10 @@
+
 import { OS_LIST_ACTION_TYPES } from "./os-list/actions";
 
 export type AppState = {
   osList: OSListState,
   darkModeContextReducer:boolean,
+  EquipmentList:EquipamentoListState
 }
 
 export type Responsavel = {
@@ -43,6 +45,7 @@ export type OS = {
     dataInicioTecnico?:string,
     dataFimTecnico?:string,
     checkList?:CheckList[],
+    equipamentos:EquipamentosOS[],
     latitude?:string,
     longitude?: string,
     assinatura?: string
@@ -96,3 +99,28 @@ export type SetDarkModeAction = {
   type: string;
   status:boolean
 }
+
+
+export type EquipamentoListState = {
+  data: Equipamento[],
+  dataFiltred: Equipamento[],
+}
+
+export type Equipamento = {
+  
+  id:string,
+  codigoEquipamento:string,
+  nomeEquipamento:string,
+}
+export type EquipamentosOS =Equipamento &{
+  qtdEquipamento:string
+}
+
+export type AddEquipmentAction = Equipamento &{
+  type:string
+}
+export type UpdateEquipmentAction = Equipamento &{
+  type:string
+}
+
+export type EquipamentoListAction = AddEquipmentAction | UpdateEquipmentAction
