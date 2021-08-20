@@ -112,7 +112,10 @@ export type Equipamento = {
   codigoEquipamento:string,
   nomeEquipamento:string,
 }
-export type EquipamentosOS =Equipamento &{
+export type EquipamentosOS ={
+  id:string,
+  codigoEquipamento:string,
+  nomeEquipamento:string,
   qtdEquipamento:string
 }
 

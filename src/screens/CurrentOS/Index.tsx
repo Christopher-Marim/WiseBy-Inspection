@@ -35,6 +35,7 @@ import * as ImagePicker from "expo-image-picker";
 import { HandleAnotation } from "../../components/HandleAnotation";
 import { InfosCurrentOS } from "../../components/InfosCurrentOS";
 import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
+import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos";
 
 type Anotation = {
   nome: string;
@@ -47,6 +48,7 @@ export function CurrentOS() {
     {} as Anotation
   );
   const [visibleImageExtends, setVisibleImageExtends] = useState(false);
+  const [visibleModalEquipamentos, setVisibleModalEquipamentos] = useState(false);
   const [visibleAnotation, setVisibleAnotation] = useState(false);
   const [newImage, setNewImage] = useState(false);
   const [indexCheckList, setIndexCheckList] = useState<number | undefined>();
@@ -165,9 +167,16 @@ export function CurrentOS() {
     setVisibleAnotation(false);
     setIndexCheckList(undefined);
   };
+  const closeModalEquipamentos = () => {
+    setVisibleModalEquipamentos(false);
+  };
 
   return (
     <View style={styles.container}>
+      <ModalListaEquipamentos
+      visible={visibleModalEquipamentos}
+      closeModalEquipamentos={closeModalEquipamentos}
+      ></ModalListaEquipamentos>
       <HandleImage
         indexCheckList={indexCheckList}
         id={currentFoto.id}
@@ -241,7 +250,9 @@ export function CurrentOS() {
                   <Text>QTD</Text>
                 </View>
               ): 
-              <TouchableOpacity style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+              <TouchableOpacity
+              onPress={()=>setVisibleModalEquipamentos(true)}
+              style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
                 <MaterialCommunityIcons name="plus" size={30} color={themes.gray}/>
                 <Text style={{fontWeight: 'bold', color: 'gray'}}>ADICIONAR EQUIPAMENTO</Text>
               </TouchableOpacity>

@@ -9,7 +9,8 @@ import {
     ChangeStatusOSAction,
     Fotos,
     UpdateOSAction,
-    OS
+    OS,
+    EquipamentosOS
 } from "../types";
 
 export enum OS_LIST_ACTION_TYPES {
@@ -34,6 +35,7 @@ export const addOS = (
     dataInicioTecnico: string,
     dataFimTecnico: string,
     checkList: CheckList[],
+    equipamentos:EquipamentosOS[],
     latitude: string,
     longitude: string,
     assinatura: string
@@ -51,6 +53,7 @@ export const addOS = (
         dataInicioTecnico,
         dataFimTecnico,
         checkList,
+        equipamentos,
         latitude,
         longitude,
         assinatura,

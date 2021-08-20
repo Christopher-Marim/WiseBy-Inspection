@@ -13,6 +13,56 @@ const initialState: EquipamentoListState = {
       codigoEquipamento:'15007',
       nomeEquipamento:'Chave Filips',
     },
+    {
+      id:'3',
+      codigoEquipamento:'15008',
+      nomeEquipamento:'Furadeira'
+    },
+    {
+      id:'4',
+      codigoEquipamento:'15006',
+      nomeEquipamento:'Chave de Fenda',
+    },
+    {
+      id:'5',
+      codigoEquipamento:'15007',
+      nomeEquipamento:'Chave Filips',
+    },
+    {
+      id:'6',
+      codigoEquipamento:'15008',
+      nomeEquipamento:'Furadeira'
+    },
+    {
+      id:'7',
+      codigoEquipamento:'15006',
+      nomeEquipamento:'Chave de Fenda',
+    },
+    {
+      id:'8',
+      codigoEquipamento:'15007',
+      nomeEquipamento:'Chave Filips',
+    },
+    {
+      id:'9',
+      codigoEquipamento:'15008',
+      nomeEquipamento:'Furadeira'
+    },
+    {
+      id:'10',
+      codigoEquipamento:'15006',
+      nomeEquipamento:'Chave de Fenda',
+    },
+    {
+      id:'11',
+      codigoEquipamento:'15007',
+      nomeEquipamento:'Chave Filips',
+    },
+    {
+      id:'12',
+      codigoEquipamento:'15008',
+      nomeEquipamento:'Furadeira'
+    },
   ],
   dataFiltred:[]
 
