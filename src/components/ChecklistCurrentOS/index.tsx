@@ -16,6 +16,7 @@ import { Button } from "../Button";
 import { styles } from "./styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SubTitle } from "../SubTitleCurrentOS";
+import { ButtonIconText } from "../ButtonIconText";
 
 type Anotation = {
   nome: string,
@@ -134,8 +135,14 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
             <View
               style={[styles.buttonsCheckList, { borderColor: themes.gray }]}
             >
-              <TouchableOpacity
-                onPress={() => {
+             
+              <ButtonIconText
+                 color={themes.gray}
+                 nameIcon={'clipboard-text'}
+                 sizeIcon={35}
+                 text={'ANOTAÇÕES'}
+                 style={styles.buttonCheckList}
+                 onPress={() => {
                   setIndexCheckList(index);
                   if (OS.checkList) {
                     const annotation = OS.checkList[index].anotacao;
@@ -146,21 +153,16 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                     setVisibleAnotation(true);
                   }
                 }}
-                style={styles.buttonCheckList}
-              >
-                <MaterialCommunityIcons
-                  name={"clipboard-text"}
-                  color={themes.gray}
-                  size={35}
-                />
-                <Text
-                  style={[styles.textButtonCheckList, { color: themes.gray }]}
-                >
-                  ANOTAÇÕES
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
+                 />
+             
+
+              <ButtonIconText
+                 color={themes.gray}
+                 nameIcon={'camera-plus'}
+                 sizeIcon={35}
+                 text={'FOTOS'}
+                 style={styles.buttonCheckList}
+                 onPress={() => {
                   if (OS.checkList)
                     if (OS.checkList[index].fotos.length < 5) {
                       imagePickerCall(index);
@@ -171,19 +173,7 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                       );
                     }
                 }}
-                style={styles.buttonCheckList}
-              >
-                <MaterialCommunityIcons
-                  name={"camera-plus"}
-                  color={themes.gray}
-                  size={35}
-                />
-                <Text
-                  style={[styles.textButtonCheckList, { color: themes.gray }]}
-                >
-                  FOTOS
-                </Text>
-              </TouchableOpacity>
+                 />
             </View>
           </View>
         </BlankContainer>

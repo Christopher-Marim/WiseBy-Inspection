@@ -39,8 +39,11 @@ export const styles = StyleSheet.create({
       },
       buttonCheckList:{
           alignItems:'center',
+          justifyContent:'center',
+          margin: 5,
           flexDirection: 'row',
           padding: 10,
+          width: '50%',
       },
       textButtonCheckList:{
           marginHorizontal:5,
