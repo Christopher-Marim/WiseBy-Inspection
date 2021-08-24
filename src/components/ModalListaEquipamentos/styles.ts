@@ -33,14 +33,14 @@ export const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignItems: 'flex-start',
-        padding: 20,
-        width: '100%',
-        backgroundColor:theme.colors.background
+        padding: 10,
+        borderRadius:50,
+        
     },
     textInput: {
         padding: 10,
-        flex:2,
-        width: '90%',
+        
+        width: '80%',
         justifyContent:'flex-start',
         alignItems:'flex-start',
         borderRadius: 10,

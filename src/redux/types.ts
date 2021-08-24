@@ -117,7 +117,7 @@ export type EquipamentosOS ={
   id:string,
   codigoEquipamento:string,
   nomeEquipamento:string,
-  qtdEquipamento:string
+  qtdEquipamento:number
 }
 
 export type AddEquipmentAction = Equipamento &{

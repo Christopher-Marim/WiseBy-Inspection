@@ -3,10 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AppState, CheckList, Fotos, OS } from "../redux/types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changeStatusOs,
-  setCurrentOs,
-} from "../redux/os-list/actions";
+import { changeStatusOs, setCurrentOs } from "../redux/os-list/actions";
 interface RequestCurrentOs {
   id: string;
 }
@@ -35,7 +32,6 @@ const ReduxProvider: React.FC = ({ children }) => {
     //const response:OS[] = useSelector((state:AppState) => state.osList.data)
     // await AsyncStorage.setItem('Redux:dataOs', JSON.stringify(response));
   }
-
 
   return (
     <ReduxContext.Provider

@@ -19,7 +19,12 @@ import {
 import { styles } from "./styles";
 import { theme } from "../../global/styles/theme";
 import { useSelector } from "react-redux";
-import { AppState, Fotos } from "../../redux/types";
+import {
+  AppState,
+  Equipamento,
+  EquipamentosOS,
+  Fotos,
+} from "../../redux/types";
 import { useNavigation } from "@react-navigation/native";
 import { SubTitle } from "../../components/SubTitleCurrentOS";
 import { BlankContainer } from "../../components/BlankContainer";
@@ -36,6 +41,8 @@ import { HandleAnotation } from "../../components/HandleAnotation";
 import { InfosCurrentOS } from "../../components/InfosCurrentOS";
 import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
 import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos";
+import { EquipmentsListCurrentOs } from "./../../components/EquipmentsListCurrentOS/index";
+
 
 type Anotation = {
   nome: string;
@@ -48,7 +55,8 @@ export function CurrentOS() {
     {} as Anotation
   );
   const [visibleImageExtends, setVisibleImageExtends] = useState(false);
-  const [visibleModalEquipamentos, setVisibleModalEquipamentos] = useState(false);
+  const [visibleModalEquipamentos, setVisibleModalEquipamentos] =
+    useState(false);
   const [visibleAnotation, setVisibleAnotation] = useState(false);
   const [newImage, setNewImage] = useState(false);
   const [indexCheckList, setIndexCheckList] = useState<number | undefined>();
@@ -57,10 +65,6 @@ export function CurrentOS() {
 
   const statusDarkMode = useSelector(
     (state: AppState) => state.darkModeContextReducer
-  );
-
-  const equipamentos = useSelector(
-    (state: AppState) => state.EquipmentList.data
   );
 
   const navigation = useNavigation();
@@ -158,6 +162,26 @@ export function CurrentOS() {
     }
   }
 
+  function addEquipments(equipamentos: Equipamento[]) {
+    try {
+      const equipamentosOS = equipamentos.map((item) => {
+        return {
+          id: item.id,
+          codigoEquipamento: item.codigoEquipamento,
+          nomeEquipamento: item.nomeEquipamento,
+          qtdEquipamento: 1,
+        };
+      });
+
+      OS.equipamentos = equipamentosOS;
+      setOS({ ...OS, equipamentos: [...OS.equipamentos] });
+
+      closeModalEquipamentos();
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   const closeModalImage = () => {
     setVisibleImageExtends(false);
     setNewImage(false);
@@ -174,8 +198,10 @@ export function CurrentOS() {
   return (
     <View style={styles.container}>
       <ModalListaEquipamentos
-      visible={visibleModalEquipamentos}
-      closeModalEquipamentos={closeModalEquipamentos}
+        visible={visibleModalEquipamentos}
+        currentEquipments={OS.equipamentos}
+        selectEquipments={addEquipments}
+        closeModalEquipamentos={closeModalEquipamentos}
       ></ModalListaEquipamentos>
       <HandleImage
         indexCheckList={indexCheckList}
@@ -232,49 +258,10 @@ export function CurrentOS() {
             Os={OS}
           />
 
-          <SubTitle text={"Ferramentas Utilizadas"} />
-          <BlankContainer>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              {OS.equipamentos.length > 0 ? (
-                <View
-                  style={{
-                    width: "80%",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text>Código</Text>
-
-                  <Text>Descrição</Text>
-
-                  <Text>QTD</Text>
-                </View>
-              ): 
-              <TouchableOpacity
-              onPress={()=>setVisibleModalEquipamentos(true)}
-              style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-                <MaterialCommunityIcons name="plus" size={30} color={themes.gray}/>
-                <Text style={{fontWeight: 'bold', color: 'gray'}}>ADICIONAR EQUIPAMENTO</Text>
-              </TouchableOpacity>
-              }
-
-              {OS.equipamentos.map((item) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    width: "80%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  key={item.id}
-                >
-                  <Text>{item.codigoEquipamento}</Text>
-                  <Text>{item.nomeEquipamento}</Text>
-                  <Text>{item.qtdEquipamento}</Text>
-                </View>
-              ))}
-            </View>
-          </BlankContainer>
+          <EquipmentsListCurrentOs
+            Os={OS}
+            setVisibleModalEquipamentos={setVisibleModalEquipamentos}
+          />
         </View>
       </ScrollView>
     </View>

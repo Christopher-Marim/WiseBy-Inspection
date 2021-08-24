@@ -70,6 +70,8 @@ export function Header() {
       if (route.name === "home") {
         if (searchActive) {
           setSearchActive(false);
+          setSearchText('');
+          dispatch(searchFilterOs('', false));
           return true;
         } else {
           Alert.alert("Espere", "Deseja mesmo sair da aplicação?", [
