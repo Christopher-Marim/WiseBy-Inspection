@@ -1,4 +1,4 @@
-import { AddOSAction, OSListAction, OSListState, RemoveOSAction, SearchFilterOSAction, SetCurrentOSAction, ToggleFilterOSAction, OS, ChangeStatusOSAction } from "../types";
+import { AddOSAction, OSListAction, OSListState, RemoveOSAction, SearchFilterOSAction, SetCurrentOSAction, ToggleFilterOSAction, OS, ChangeStatusOSAction, UpdateOSAction } from "../types";
 import { OS_LIST_ACTION_TYPES } from "./actions";
 
 const initialState: OSListState = {
@@ -190,8 +190,18 @@ const osList = (state: OSListState = initialState, action: OSListAction) => {
       newState.dataFiltred[index].statusOs = status
       return { ...newState, dataFiltred: [...newState.dataFiltred] };
     }
+    case OS_LIST_ACTION_TYPES.UPDATE_OS: {
+
+      const { id, osData} = <UpdateOSAction>action;
+
+      const index1 = newState.data.findIndex((item) => item.id == id)
+      const index2 = newState.dataFiltred.findIndex((item) => item.id == id)
+      newState.data[index1] = osData
+      newState.dataFiltred[index2] = osData
+      return { ...newState, data: [...newState.data], dataFiltred:[...newState.dataFiltred], currentOs: osData };
+    }
     default:
-      return state;
+      return state;         
   }
 }
 

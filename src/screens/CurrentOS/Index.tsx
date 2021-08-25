@@ -24,6 +24,7 @@ import {
   Equipamento,
   EquipamentosOS,
   Fotos,
+  OS,
 } from "../../redux/types";
 import { useNavigation } from "@react-navigation/native";
 import { SubTitle } from "../../components/SubTitleCurrentOS";
@@ -42,7 +43,6 @@ import { InfosCurrentOS } from "../../components/InfosCurrentOS";
 import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
 import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos";
 import { EquipmentsListCurrentOs } from "./../../components/EquipmentsListCurrentOS/index";
-
 
 type Anotation = {
   nome: string;
@@ -67,6 +67,8 @@ export function CurrentOS() {
     (state: AppState) => state.darkModeContextReducer
   );
 
+  const { UpdateCurrentOS, ChangeStatusOs } = useRedux();
+
   const navigation = useNavigation();
   const { user } = useAuth();
   const themes = statusDarkMode ? theme.colors_dark : theme.colors;
@@ -75,6 +77,7 @@ export function CurrentOS() {
     if (OS.checkList) {
       OS.checkList[index].status = status;
       setOS({ ...OS, checkList: [...OS.checkList] });
+      
     }
   }
 
@@ -117,6 +120,15 @@ export function CurrentOS() {
     setIndexCheckList(index);
   }
 
+  function atualizarOS(id:string, osData:OS){
+    UpdateCurrentOS(id, osData)
+  }
+
+  useEffect(() => {
+    UpdateCurrentOS(OS.id, OS)
+    console.log('ALTERADO')
+  },[OS])
+
   function addImage() {
     try {
       if (OS.checkList) {
@@ -126,6 +138,7 @@ export function CurrentOS() {
           nome: currentFoto.nome,
         });
         setOS({ ...OS, checkList: [...OS.checkList] });
+        
       }
       closeModalImage();
     } catch (error) {
@@ -144,6 +157,7 @@ export function CurrentOS() {
           1
         );
         setOS({ ...OS, checkList: [...OS.checkList] });
+        
       }
       closeModalImage();
     } catch (error) {
@@ -155,6 +169,7 @@ export function CurrentOS() {
       if (OS.checkList) {
         OS.checkList[indexCheckList ? indexCheckList : 0].anotacao = text;
         setOS({ ...OS, checkList: [...OS.checkList] });
+        
       }
       closeModalAnotation();
     } catch (error) {
@@ -175,6 +190,7 @@ export function CurrentOS() {
 
       OS.equipamentos = equipamentosOS;
       setOS({ ...OS, equipamentos: [...OS.equipamentos] });
+      
 
       closeModalEquipamentos();
     } catch (error) {
@@ -234,7 +250,13 @@ export function CurrentOS() {
           />
         </TouchableOpacity>
         <Text style={styles.title}>{OS.nomeOs}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+              OS.statusOs = "Finalizado"
+              
+              atualizarOS(OS.id, OS)
+          }}
+        >
           <Text style={styles.textButton}>Finalizar</Text>
         </TouchableOpacity>
       </View>

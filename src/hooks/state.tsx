@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { AppState, CheckList, Fotos, OS } from "../redux/types";
 import { useDispatch, useSelector } from "react-redux";
-import { changeStatusOs, setCurrentOs } from "../redux/os-list/actions";
+import { changeStatusOs, setCurrentOs, UpdateOS } from "../redux/os-list/actions";
 interface RequestCurrentOs {
   id: string;
 }
@@ -12,6 +12,7 @@ interface ReduxContextData {
   currentOsRedux: OS | null;
   SetCurrentOs(id: string): void;
   ChangeStatusOs(id: string, status: string): void;
+  UpdateCurrentOS(id:string, osData:OS):void
 }
 
 const ReduxContext = createContext<ReduxContextData>({} as ReduxContextData);
@@ -29,13 +30,17 @@ const ReduxProvider: React.FC = ({ children }) => {
   }
   async function ChangeStatusOs(id: string, status: string) {
     dispatch(changeStatusOs(id, status));
-    //const response:OS[] = useSelector((state:AppState) => state.osList.data)
+   // const response:OS[] = useSelector((state:AppState) => state.osList.data)
     // await AsyncStorage.setItem('Redux:dataOs', JSON.stringify(response));
+  }
+  async function UpdateCurrentOS(id: string,osData:OS) {
+    dispatch(UpdateOS(id,osData));
+   // const response:OS[] = useSelector((state:AppState) => state.osList.data)
   }
 
   return (
     <ReduxContext.Provider
-      value={{ currentOsRedux, SetCurrentOs, ChangeStatusOs }}
+      value={{ currentOsRedux, SetCurrentOs, ChangeStatusOs, UpdateCurrentOS }}
     >
       {children}
     </ReduxContext.Provider>

@@ -54,6 +54,7 @@ export function ListaOs() {
             <OrdemDeServico
               key={OS.id}
               id={OS.id}
+              equipamentos={OS.equipamentos}
               nomeOs={OS.nomeOs}
               numeroOs={OS.numeroOs}
               dataInicioPrevista={OS.dataInicioPrevista}
