@@ -28,6 +28,7 @@ import { InfosCurrentOS } from "../../components/InfosCurrentOS";
 import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
 import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos";
 import { EquipmentsListCurrentOs } from "./../../components/EquipmentsListCurrentOS/index";
+import { SnackbarComponent } from "../../components/SnackbarComponent";
 
 type Anotation = {
   nome: string;
@@ -44,6 +45,8 @@ export function CurrentOS() {
   const [visibleModalEquipamentos, setVisibleModalEquipamentos] =
     useState(false);
   const [visibleAnotation, setVisibleAnotation] = useState(false);
+  const [visibleSnackbar, setVisibleSnackbar] = useState(false)
+  const [TextAlert, setTextAlert] = useState('erro')
 
   const [newImage, setNewImage] = useState(false);
   const [indexCheckList, setIndexCheckList] = useState<number | undefined>();
@@ -116,6 +119,16 @@ export function CurrentOS() {
     UpdateCurrentOS(id, osData);
   }
 
+  const AlertStatus = () => {
+    if( OS.statusOs.toLowerCase() == "finalizado"){
+      setTextAlert("Ordem de serviço já finalizada!");
+    }
+    else{
+      setTextAlert("Ordem de serviço em modo visualização!");
+    }
+    setVisibleSnackbar(true)
+  };
+
   function addImage() {
     try {
       if (OS.checkList) {
@@ -134,7 +147,7 @@ export function CurrentOS() {
 
   function removeImage() {
     try {
-      if (OS.checkList) {
+      if (OS.checkList && OS.statusOs.toLowerCase()=='em andamento') {
         let indexItemToRemove = OS.checkList[
           indexCheckList ? indexCheckList : 0
         ].fotos.findIndex((x) => x.id == currentFoto.id);
@@ -144,6 +157,9 @@ export function CurrentOS() {
         );
         setOS({ ...OS, checkList: [...OS.checkList] });
       }
+      else{
+        AlertStatus()
+      }
       closeModalImage();
     } catch (error) {
       alert(error);
@@ -151,9 +167,11 @@ export function CurrentOS() {
   }
   function addAnnotation(text: string) {
     try {
-      if (OS.checkList) {
+      if (OS.checkList && OS.statusOs.toLowerCase() == "em andamento") {
         OS.checkList[indexCheckList ? indexCheckList : 0].anotacao = text;
         setOS({ ...OS, checkList: [...OS.checkList] });
+      } else {
+        AlertStatus();
       }
       closeModalAnotation();
     } catch (error) {
@@ -192,6 +210,9 @@ export function CurrentOS() {
   };
   const closeModalEquipamentos = () => {
     setVisibleModalEquipamentos(false);
+  };
+  const closeSnack = () => {
+    setVisibleSnackbar(false);
   };
 
   return (
@@ -234,19 +255,20 @@ export function CurrentOS() {
             />
           </TouchableOpacity>
           <Text style={styles.title}>{OS.nomeOs}</Text>
-          {OS.statusOs.toLowerCase()=='em andamento'?(
-          <TouchableOpacity
-            onPress={() => {
-              OS.statusOs = "Finalizado";
-              atualizarOS(OS.id, OS);
-              dispatch(toggleFilterOs(false));
-              navigation.goBack();
-            }}
-          >
-            <Text style={styles.textButton}>Finalizar</Text>
-          </TouchableOpacity>
-
-          ):<View/>}
+          {OS.statusOs.toLowerCase() == "em andamento" ? (
+            <TouchableOpacity
+              onPress={() => {
+                OS.statusOs = "Finalizado";
+                atualizarOS(OS.id, OS);
+                dispatch(toggleFilterOs(false));
+                navigation.goBack();
+              }}
+            >
+              <Text style={styles.textButton}>Finalizar</Text>
+            </TouchableOpacity>
+          ) : (
+            <View />
+          )}
         </View>
       </View>
       <StatusBar
@@ -255,10 +277,12 @@ export function CurrentOS() {
         }
         translucent
       />
+      
       <ScrollView style={styles.container}>
         <View style={styles.wraper}>
           <InfosCurrentOS {...OS} />
           <ChecklistCurrentOS
+            alertStatus={()=>AlertStatus()}
             SetCurrentAnotation={SetCurrentAnotation}
             SetCurrentFoto={SetCurrentFoto}
             changeCheckListStatus={changeCheckListStatus}
@@ -275,6 +299,7 @@ export function CurrentOS() {
           />
         </View>
       </ScrollView>
+      <SnackbarComponent visible={visibleSnackbar} text={TextAlert} closeSnack={closeSnack}/>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { OS } from "../../redux/types";
 import { BlankContainer } from "../BlankContainer";
 import { styles } from "./styles";
@@ -18,6 +18,7 @@ export function EquipmentsListCurrentOs({
   setVisibleModalEquipamentos,
   Os: OS,
 }: Props) {
+
   return (
     <View style={styles.container}>
       <SubTitle text={"Ferramentas Utilizadas"} />
@@ -31,7 +32,7 @@ export function EquipmentsListCurrentOs({
 
               <Text>QTD</Text>
             </View>
-          ) : (
+          ) :  OS.statusOs.toLowerCase()=='em andamento' && (
             <ButtonIconText
               color={theme.colors.gray}
               nameIcon={"plus"}
@@ -50,7 +51,7 @@ export function EquipmentsListCurrentOs({
             </View>
           ))}
 
-          {OS.equipamentos.length > 0 && (
+          {OS.equipamentos.length > 0 && OS.statusOs.toLowerCase()=='em andamento' && (
             <View style={{ paddingTop: 10 }}>
               <ButtonIconText
                 color={theme.colors.gray}

@@ -19,22 +19,33 @@ import { SubTitle } from "../SubTitleCurrentOS";
 import { ButtonIconText } from "../ButtonIconText";
 
 type Anotation = {
-  nome: string,
-  texto:string
-}
+  nome: string;
+  texto: string;
+};
 
 type Props = {
-  setVisibleImageExtends(condition:boolean):void,
-  setVisibleAnotation(condition:boolean):void
-  changeCheckListStatus(index:number, text:string):void,
-  SetCurrentFoto(Foto:Fotos):void
-  SetCurrentAnotation(anotation:Anotation):void
-  imagePickerCall(index:number):void
-  setIndexCheckList(index:number):void
-  Os:OS 
-}
+  setVisibleImageExtends(condition: boolean): void;
+  setVisibleAnotation(condition: boolean): void;
+  changeCheckListStatus(index: number, text: string): void;
+  SetCurrentFoto(Foto: Fotos): void;
+  SetCurrentAnotation(anotation: Anotation): void;
+  imagePickerCall(index: number): void;
+  setIndexCheckList(index: number): void;
+  alertStatus():void
+  Os: OS;
+};
 
-export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus,SetCurrentFoto,SetCurrentAnotation,imagePickerCall, setVisibleAnotation,setIndexCheckList,Os}:Props) {
+export function ChecklistCurrentOS({
+  setVisibleImageExtends,
+  changeCheckListStatus,
+  SetCurrentFoto,
+  SetCurrentAnotation,
+  imagePickerCall,
+  setVisibleAnotation,
+  setIndexCheckList,
+  alertStatus,
+  Os,
+}: Props) {
   const statusDarkMode = useSelector(
     (state: AppState) => state.darkModeContextReducer
   );
@@ -48,6 +59,14 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
     SetCurrentFoto(Foto);
     setVisibleImageExtends(visible);
   };
+
+    function changeStatusButton(index:number, status:string){
+    if (OS.statusOs.toLowerCase() == "em andamento") {
+      changeCheckListStatus(index, status);
+    } else {
+      alertStatus()
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -68,7 +87,7 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                 }
                 fontColor={"white"}
                 onPress={() => {
-                  changeCheckListStatus(index, "conforme");
+                  changeStatusButton(index, "conforme")  
                 }}
               />
               <Button
@@ -80,7 +99,7 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                 }
                 fontColor={"white"}
                 onPress={() => {
-                  changeCheckListStatus(index, "inconforme");
+                  changeStatusButton(index, "inconforme");
                 }}
               />
               <Button
@@ -92,7 +111,7 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                 }
                 fontColor={"white"}
                 onPress={() => {
-                  changeCheckListStatus(index, "n/a");
+                  changeStatusButton(index, "n/a");
                 }}
               />
             </View>
@@ -135,14 +154,13 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
             <View
               style={[styles.buttonsCheckList, { borderColor: themes.gray }]}
             >
-             
               <ButtonIconText
-                 color={themes.gray}
-                 nameIcon={'clipboard-text'}
-                 sizeIcon={35}
-                 text={'ANOTAÇÕES'}
-                 style={styles.buttonCheckList}
-                 onPress={() => {
+                color={themes.gray}
+                nameIcon={"clipboard-text"}
+                sizeIcon={35}
+                text={"ANOTAÇÕES"}
+                style={styles.buttonCheckList}
+                onPress={() => {
                   setIndexCheckList(index);
                   if (OS.checkList) {
                     const annotation = OS.checkList[index].anotacao;
@@ -153,17 +171,17 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                     setVisibleAnotation(true);
                   }
                 }}
-                 />
-             
+              />
 
               <ButtonIconText
-                 color={themes.gray}
-                 nameIcon={'camera-plus'}
-                 sizeIcon={35}
-                 text={'FOTOS'}
-                 style={styles.buttonCheckList}
-                 onPress={() => {
+                color={themes.gray}
+                nameIcon={"camera-plus"}
+                sizeIcon={35}
+                text={"FOTOS"}
+                style={styles.buttonCheckList}
+                onPress={() => {
                   if (OS.checkList)
+                  if(OS.statusOs.toLowerCase()=='em andamento'){
                     if (OS.checkList[index].fotos.length < 5) {
                       imagePickerCall(index);
                     } else {
@@ -172,8 +190,12 @@ export function ChecklistCurrentOS({setVisibleImageExtends,changeCheckListStatus
                         "O limite de fotos é 5"
                       );
                     }
+                  }
+                  else{
+                    alertStatus();
+                  }
                 }}
-                 />
+              />
             </View>
           </View>
         </BlankContainer>
