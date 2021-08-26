@@ -29,6 +29,7 @@ import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
 import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos";
 import { EquipmentsListCurrentOs } from "./../../components/EquipmentsListCurrentOS/index";
 import { SnackbarComponent } from "../../components/SnackbarComponent";
+import { LinearGradient } from "expo-linear-gradient";
 
 type Anotation = {
   nome: string;
@@ -242,7 +243,11 @@ export function CurrentOS() {
         nome={currentAnotation.nome}
         newAnotation={addAnnotation}
       />
-      <View style={styles.header}>
+      <LinearGradient 
+      start={[1, 0]}
+      end={[1, 1.4]}
+      colors={[themes.background, themes.background]}
+      style={[styles.header]}>
         <View style={styles.headerwrapper}>
           <TouchableOpacity
             style={styles.buttonBack}
@@ -251,12 +256,13 @@ export function CurrentOS() {
             <MaterialIcons
               name="arrow-back-ios"
               size={30}
-              color={theme.colors.titleColor}
+              color={themes.titleColor}
             />
           </TouchableOpacity>
-          <Text style={styles.title}>{OS.nomeOs}</Text>
+          <Text style={[styles.title, {color:themes.titleColor}]}>{OS.nomeOs}</Text>
           {OS.statusOs.toLowerCase() == "em andamento" ? (
             <TouchableOpacity
+            style={{padding: 10, position:'absolute', right:10}}
               onPress={() => {
                 OS.statusOs = "Finalizado";
                 atualizarOS(OS.id, OS);
@@ -264,21 +270,21 @@ export function CurrentOS() {
                 navigation.goBack();
               }}
             >
-              <Text style={styles.textButton}>Finalizar</Text>
+              <Text style={[styles.textButton, {color:themes.titleColor}]}>Finalizar</Text>
             </TouchableOpacity>
           ) : (
             <View />
           )}
         </View>
-      </View>
+      </LinearGradient>
       <StatusBar
         barStyle={
-          themes.CurrentLinear1 != "#FFFFFF" ? "dark-content" : "light-content"
+          themes.HeaderLinear1 == "#FFFFFF" ? "dark-content" : "light-content"
         }
         translucent
       />
-      
-      <ScrollView style={styles.container}>
+    
+      <ScrollView style={[styles.container, {backgroundColor:themes.background}]}>
         <View style={styles.wraper}>
           <InfosCurrentOS {...OS} />
           <ChecklistCurrentOS

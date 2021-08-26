@@ -19,12 +19,11 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: Dimensions.get('window').height*.10,
         backgroundColor: theme.colors.secondary,
-        elevation:2
+       
     },
     headerwrapper: {
         paddingHorizontal: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         marginTop:getStatusBarHeight(),
         width: '100%',
