@@ -23,15 +23,18 @@ import { AppScreens } from "../../routes/types";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { changeDarkMode } from "../../redux/darkmode/actions";
+import { LinearGradient } from "expo-linear-gradient";
 
 export function DrawerContent(props: DrawerContentComponentProps) {
   const [nome, setnome] = useState("Usuário");
   const [loaderVisiBle, setLoaderVisible] = useState(false);
   const [snackVisible, setSnackVisible] = useState(false);
   const [nomeEmpresa, setnomeEmpresa] = useState();
-  const [email, setemail] = useState();
+  const [darkmode, setdarkmode] = useState(false);
   const [UnitIdEmpresa, setUnitIdEmpresa] = useState();
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  const themes = darkmode?theme.colors_dark:theme.colors
 
   useEffect(() => {
     getDarkmode();
@@ -44,6 +47,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
       console.log(statusAux)
       const status = statusAux == "1" ? true : false
       setIsSwitchOn(status);
+      setdarkmode(status)
       dispatch(changeDarkMode(status))
     } catch (error) {
       alert(error);
@@ -79,11 +83,17 @@ export function DrawerContent(props: DrawerContentComponentProps) {
   const navigation = useNavigation();
 
   return (
-    <View style={{ flex: 1 }}>
+    <LinearGradient 
+        style={{ flex: 1, backgroundColor:themes.primary}}
+        start={[1, 0]}
+        end={[1, 1.4]}
+        colors={[themes.HeaderLinear1, themes.HeaderLinear2]}
+    >
+
       <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
+        <View style={[styles.drawerContent, {backgroundColor:'transparent',}]}>
           <TouchableOpacity onPress={() => {}}>
-            <View style={styles.userInfoSection}>
+            <View style={[styles.userInfoSection, {backgroundColor:darkmode?'transparent':theme.colors_dark.primary}]}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Avatar.Image
                   source={require("../../assets/iconWhite.png")}
@@ -110,14 +120,15 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                     icon={({ color, size }) => (
                       <MaterialCommunityIcons
                         name="newspaper-variant-outline"
-                        color={color}
+                        color={themes.text}
                         size={size}
                       />
                     )}
                   />
                 )}
                 title="Notificações"
-                titleStyle={{ fontSize: 16 }}
+                style={{borderBottomWidth:0.2, borderColor:'white'}}
+                titleStyle={{ fontSize: 16, color: themes.text }}
                 onPress={() => {}}
               />
 
@@ -127,54 +138,48 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                     icon={({ color, size }) => (
                       <MaterialCommunityIcons
                         name="format-list-text"
-                        color={color}
+                        color={themes.text}
                         size={size}
                       />
                     )}
                   />
                 )}
+                style={{borderBottomWidth:0.2, borderColor:'white'}}
                 title="Lista de OS"
-                titleStyle={{ fontSize: 16 }}
+                titleStyle={{ fontSize: 16, color: themes.text }}
                 onPress={() => {
                   props.navigation.navigate("home");
                 }}
               />
-
-              {UnitIdEmpresa != 3 && <View></View>}
-
-              <List.Accordion
-                title="Configurações"
-                titleStyle={{ fontSize: 16 }}
-                id="4"
-                style={{ backgroundColor: "white" }}
+              <List.Item
                 left={() => (
                   <List.Icon
                     icon={({ color, size }) => (
-                      <FontAwesome name="cog" color={color} size={size} />
+                      <FontAwesome name="cog" color={themes.text} size={size} />
                     )}
                   />
                 )}
-              >
-                <List.Item
-                  title="Perfil"
-                  titleStyle={{ fontSize: 16 }}
-                  onPress={() => {}}
-                />
-              </List.Accordion>
+                title="Configurações"
+                style={{borderBottomWidth:0.2, borderColor:'white'}}
+                titleStyle={{ fontSize: 16, color: themes.text }}
+                onPress={() => {
+                }}
+              />
               <List.Item
                 left={() => (
                   <List.Icon
                     icon={({ color, size }) => (
                       <MaterialCommunityIcons
                         name="database-sync"
-                        color={color}
+                        color={themes.text}
                         size={size}
                       />
                     )}
                   />
                 )}
                 title="Sincronizar dados"
-                titleStyle={{ fontSize: 16 }}
+                style={{borderBottomWidth:0.2, borderColor:'white'}}
+                titleStyle={{ fontSize: 16, color: themes.text }}
                 onPress={() => {
                   setLoaderVisible(true);
                   GetdataVeiculesAndOccurrences();
@@ -186,14 +191,16 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                     icon={({ color, size }) => (
                       <MaterialCommunityIcons
                         name="account-check-outline"
-                        color={color}
+                        color={themes.text}
                         size={size}
                       />
                     )}
                   />
                 )}
                 title="Suporte ETM"
-                titleStyle={{ fontSize: 16 }}
+                style={{borderBottomWidth:0.2, borderColor:'white'}}
+
+                titleStyle={{ fontSize: 16, color: themes.text }}
                 onPress={() => {
                   Linking.openURL("https://www.etm.srv.br");
                 }}
@@ -202,11 +209,11 @@ export function DrawerContent(props: DrawerContentComponentProps) {
           </Drawer.Section>
           <View style={styles.wraperSwitch}>
             <Switch
-              color={theme.colors.primary}
+              color={themes.text}
               value={isSwitchOn}
               onValueChange={onToggleSwitch}
             ></Switch>
-            <Text>DarkMode</Text>
+            <Text style={{color:themes.text}}>   DarkMode</Text>
           </View>
         </View>
       </DrawerContentScrollView>
@@ -215,16 +222,17 @@ export function DrawerContent(props: DrawerContentComponentProps) {
           icon={({ color, size }) => (
             <MaterialCommunityIcons
               name="exit-to-app"
-              color={color}
+              color={themes.text}
               size={size}
             />
           )}
+          labelStyle={{color:themes.text}}
           label="Sair"
           onPress={() => {
             signOut();
           }}
         />
       </Drawer.Section>
-    </View>
+    </LinearGradient>
   );
 }

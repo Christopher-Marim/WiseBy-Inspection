@@ -4,12 +4,15 @@ import { theme } from '../../global/styles/theme';
 export const styles = StyleSheet.create({
     drawerContent: {
         flex: 1,
-        marginTop: -5,
+        marginTop: -30,
+        backgroundColor: theme.colors.primary,
+
     },
     userInfoSection: {
         paddingLeft: 20,
         backgroundColor: theme.colors.primary,
-        paddingVertical: 20,
+        paddingVertical: 30,
+        marginTop:20,
         justifyContent: "center",
         width: "100%",
     },

@@ -9,7 +9,7 @@ import React from "react"
 
 export const theme = {
   colors: {
-    primary: '#000B47',
+    primary: '#FFFFFF',
     secondary: '#FFFFFF',
     background:   '#f0f0f0',
     gray: '#939393',
@@ -20,6 +20,7 @@ export const theme = {
 
     overlay: 'rgba(0,0,0,0.7)',
     titleColor:   '#000B47',
+    text:'#000000',
     subFonts:   '#939393',
     highlight: '#ABB1CC',
     heading: '#DDE3F0',
@@ -55,6 +56,7 @@ export const theme = {
 
     overlay: 'rgba(0,0,0,0.7)',
     titleColor:  '#FFFFFF', 
+    text:'#FFFFFF',
     subFonts:  '#FFFFFF' ,
     highlight: '#ABB1CC',
     heading: '#DDE3F0',
