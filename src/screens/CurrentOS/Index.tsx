@@ -4,40 +4,25 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
-  BackHandler,
   Alert,
   StatusBar,
 } from "react-native";
 
-import {
-  MaterialIcons,
-  MaterialCommunityIcons,
-  FontAwesome,
-} from "@expo/vector-icons";
-
-import { styles } from "./styles";
-import { theme } from "../../global/styles/theme";
-import { useSelector } from "react-redux";
-import {
-  AppState,
-  Equipamento,
-  EquipamentosOS,
-  Fotos,
-  OS,
-} from "../../redux/types";
-import { useNavigation } from "@react-navigation/native";
-import { SubTitle } from "../../components/SubTitleCurrentOS";
-import { BlankContainer } from "../../components/BlankContainer";
-import { useAuth } from "../../hooks/auth";
-import { Button } from "../../components/Button";
-import { useRedux } from "../../hooks/state";
-import { UpdateOS } from "../../redux/os-list/actions";
-import { HandleImage } from "../../components/HandleImage";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+
+import { styles } from "./styles";
+import { theme } from "../../global/styles/theme";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState, Equipamento, Fotos, OS } from "../../redux/types";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
+import { useRedux } from "../../hooks/state";
+import { toggleFilterOs } from "../../redux/os-list/actions";
+import { HandleImage } from "../../components/HandleImage";
 import { HandleAnotation } from "../../components/HandleAnotation";
 import { InfosCurrentOS } from "../../components/InfosCurrentOS";
 import { ChecklistCurrentOS } from "../../components/ChecklistCurrentOS";
@@ -54,12 +39,15 @@ export function CurrentOS() {
   const [currentAnotation, SetCurrentAnotation] = useState<Anotation>(
     {} as Anotation
   );
+
   const [visibleImageExtends, setVisibleImageExtends] = useState(false);
   const [visibleModalEquipamentos, setVisibleModalEquipamentos] =
     useState(false);
   const [visibleAnotation, setVisibleAnotation] = useState(false);
+
   const [newImage, setNewImage] = useState(false);
   const [indexCheckList, setIndexCheckList] = useState<number | undefined>();
+
   const OSaux = useSelector((state: AppState) => state.osList.currentOs);
   const [OS, setOS] = useState(OSaux);
 
@@ -67,17 +55,21 @@ export function CurrentOS() {
     (state: AppState) => state.darkModeContextReducer
   );
 
-  const { UpdateCurrentOS, ChangeStatusOs } = useRedux();
+  const { UpdateCurrentOS } = useRedux();
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const { user } = useAuth();
   const themes = statusDarkMode ? theme.colors_dark : theme.colors;
+
+  useEffect(() => {
+    UpdateCurrentOS(OS.id, OS);
+  }, [OS]);
 
   function changeCheckListStatus(index: number, status: string) {
     if (OS.checkList) {
       OS.checkList[index].status = status;
       setOS({ ...OS, checkList: [...OS.checkList] });
-      
     }
   }
 
@@ -120,14 +112,9 @@ export function CurrentOS() {
     setIndexCheckList(index);
   }
 
-  function atualizarOS(id:string, osData:OS){
-    UpdateCurrentOS(id, osData)
+  function atualizarOS(id: string, osData: OS) {
+    UpdateCurrentOS(id, osData);
   }
-
-  useEffect(() => {
-    UpdateCurrentOS(OS.id, OS)
-    console.log('ALTERADO')
-  },[OS])
 
   function addImage() {
     try {
@@ -138,7 +125,6 @@ export function CurrentOS() {
           nome: currentFoto.nome,
         });
         setOS({ ...OS, checkList: [...OS.checkList] });
-        
       }
       closeModalImage();
     } catch (error) {
@@ -157,7 +143,6 @@ export function CurrentOS() {
           1
         );
         setOS({ ...OS, checkList: [...OS.checkList] });
-        
       }
       closeModalImage();
     } catch (error) {
@@ -169,7 +154,6 @@ export function CurrentOS() {
       if (OS.checkList) {
         OS.checkList[indexCheckList ? indexCheckList : 0].anotacao = text;
         setOS({ ...OS, checkList: [...OS.checkList] });
-        
       }
       closeModalAnotation();
     } catch (error) {
@@ -190,7 +174,6 @@ export function CurrentOS() {
 
       OS.equipamentos = equipamentosOS;
       setOS({ ...OS, equipamentos: [...OS.equipamentos] });
-      
 
       closeModalEquipamentos();
     } catch (error) {
@@ -239,26 +222,32 @@ export function CurrentOS() {
         newAnotation={addAnnotation}
       />
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.buttonBack}
-          onPress={() => navigation.goBack()}
-        >
-          <MaterialIcons
-            name="arrow-back-ios"
-            size={30}
-            color={theme.colors.titleColor}
-          />
-        </TouchableOpacity>
-        <Text style={styles.title}>{OS.nomeOs}</Text>
-        <TouchableOpacity
-          onPress={() => {
-              OS.statusOs = "Finalizado"
-              
-              atualizarOS(OS.id, OS)
-          }}
-        >
-          <Text style={styles.textButton}>Finalizar</Text>
-        </TouchableOpacity>
+        <View style={styles.headerwrapper}>
+          <TouchableOpacity
+            style={styles.buttonBack}
+            onPress={() => navigation.goBack()}
+          >
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={30}
+              color={theme.colors.titleColor}
+            />
+          </TouchableOpacity>
+          <Text style={styles.title}>{OS.nomeOs}</Text>
+          {OS.statusOs.toLowerCase()=='em andamento'?(
+          <TouchableOpacity
+            onPress={() => {
+              OS.statusOs = "Finalizado";
+              atualizarOS(OS.id, OS);
+              dispatch(toggleFilterOs(false));
+              navigation.goBack();
+            }}
+          >
+            <Text style={styles.textButton}>Finalizar</Text>
+          </TouchableOpacity>
+
+          ):<View/>}
+        </View>
       </View>
       <StatusBar
         barStyle={

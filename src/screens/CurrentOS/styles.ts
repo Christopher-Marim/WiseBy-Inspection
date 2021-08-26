@@ -1,3 +1,4 @@
+import { StatusBar } from "react-native";
 import { StyleSheet, Dimensions } from "react-native";
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { theme } from "../../global/styles/theme";
@@ -13,19 +14,24 @@ export const styles = StyleSheet.create({
         padding: 10
     },
     header: {
-        paddingHorizontal: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
         height: Dimensions.get('window').height*.10,
         backgroundColor: theme.colors.secondary,
         elevation:2
     },
+    headerwrapper: {
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop:getStatusBarHeight(),
+        width: '100%',
+    },
     title: {
         fontSize: 25,
         fontWeight: 'bold',
-        marginLeft: -15,
         fontFamily: 'Roboto',
         color: theme.colors.titleColor
     },
@@ -34,7 +40,8 @@ export const styles = StyleSheet.create({
         width: 50,
         borderRadius: 25,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        
     },
     textButton: {
         fontSize: 16,
