@@ -27,6 +27,7 @@ import {
   toggleFilterOs,
 } from "../../redux/os-list/actions";
 import { AppState } from "../../redux/types";
+import { useRedux } from "../../hooks/state";
 
 export function Header() {
   const [textInputWidth] = useState(new Animated.Value(0));
@@ -43,8 +44,20 @@ export function Header() {
   const themes = statusDarkMode? theme.colors_dark : theme.colors
 
   //sempre que renderizado componente é feito o filtro com as OS pendentes
-  useEffect(() => {
+
+  const {GetListOsStorage, SetNewsOSs}=useRedux()
+  
+  async function GetStorage(){
+    await GetListOsStorage()
     dispatch(toggleFilterOs(false));
+  }
+   function UpdateListOS(){
+    //SetNewsOSs()
+    dispatch(toggleFilterOs(false));
+  }
+  
+  useEffect(() => {
+    GetStorage()
   }, []);
 
   // Aniamção para a barra de Pesquisa

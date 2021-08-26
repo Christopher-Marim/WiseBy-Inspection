@@ -67,6 +67,10 @@ export type UpdateOSAction = {
   id: string;
   osData: OS;
 }
+export type SetListOSAction = {
+  type: string;
+   osData: OS[];
+}
 export type RemoveOSAction = {
   type: string;
   index: number;
@@ -91,7 +95,7 @@ export type ChangeStatusOSAction = {
   status:string
 }
 
-export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction| SetCurrentOSAction| ChangeStatusOSAction ;
+export type OSListAction = AddOSAction | UpdateOSAction | RemoveOSAction | ToggleFilterOSAction | SearchFilterOSAction| SetCurrentOSAction| ChangeStatusOSAction | SetListOSAction ;
 
 // DarkMode Type
 

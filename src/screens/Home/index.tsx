@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { View, StatusBar } from "react-native";
 import { Header } from "../../components/Header";
 import { styles } from "./styles";
@@ -13,11 +13,6 @@ import { AppState } from "../../redux/types";
 
 export function Home() {
   const { user, signOut } = useAuth();
-
-  
-  function handleSignOut() {
-    signOut();
-  }
   
   const statusDarkMode = useSelector((state:AppState) => state.darkModeContextReducer)
   const themes = statusDarkMode? theme.colors_dark : theme.colors

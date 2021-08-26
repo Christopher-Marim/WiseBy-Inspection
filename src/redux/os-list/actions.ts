@@ -10,7 +10,8 @@ import {
     Fotos,
     UpdateOSAction,
     OS,
-    EquipamentosOS
+    EquipamentosOS,
+    SetListOSAction
 } from "../types";
 
 export enum OS_LIST_ACTION_TYPES {
@@ -21,6 +22,7 @@ export enum OS_LIST_ACTION_TYPES {
     SEARCH_OS = 'OS_LIST/SEARCH_OS',
     SET_CURRENT_OS = 'OS_LIST/SET_CURRENT_OS ',
     CHANGE_STATUS_OS = 'OS_LIST/CHANGE_STATUS_OS ',
+    SET_LIST_OS = 'OS_LIST/SET_LIST_OS ',
 }
 
 export const addOS = (
@@ -35,7 +37,7 @@ export const addOS = (
     dataInicioTecnico: string,
     dataFimTecnico: string,
     checkList: CheckList[],
-    equipamentos:EquipamentosOS[],
+    equipamentos: EquipamentosOS[],
     latitude: string,
     longitude: string,
     assinatura: string
@@ -83,7 +85,11 @@ export const changeStatusOs = (id: string, status: string): ChangeStatusOSAction
     status,
 })
 export const UpdateOS = (id: string, osData: OS,): UpdateOSAction => ({
-        type: OS_LIST_ACTION_TYPES.UPDATE_OS,
-        id,
-        osData
-    })
+    type: OS_LIST_ACTION_TYPES.UPDATE_OS,
+    id,
+    osData
+})
+export const setListOS = (osData: OS[],): SetListOSAction => ({
+    type: OS_LIST_ACTION_TYPES.SET_LIST_OS,
+    osData
+})
