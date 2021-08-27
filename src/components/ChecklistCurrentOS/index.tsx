@@ -17,6 +17,7 @@ import { styles } from "./styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SubTitle } from "../SubTitleCurrentOS";
 import { ButtonIconText } from "../ButtonIconText";
+import { variable } from "../../global/variables/commonsVariables";
 
 type Anotation = {
   nome: string;
@@ -51,6 +52,8 @@ export function ChecklistCurrentOS({
   );
 
   const themes = statusDarkMode ? theme.colors_dark : theme.colors;
+  
+  const {FINISHED_STATUS, PENDING_STATUS, INPROGRESS_STATUS} = variable.statusOs
 
   const [OS, setOS] = useState(Os);
   const { user } = useAuth();
@@ -61,7 +64,7 @@ export function ChecklistCurrentOS({
   };
 
     function changeStatusButton(index:number, status:string){
-    if (OS.statusOs.toLowerCase() == "em andamento") {
+    if (OS.statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase()) {
       changeCheckListStatus(index, status);
     } else {
       alertStatus()
@@ -181,7 +184,7 @@ export function ChecklistCurrentOS({
                 style={styles.buttonCheckList}
                 onPress={() => {
                   if (OS.checkList)
-                  if(OS.statusOs.toLowerCase()=='em andamento'){
+                  if(OS.statusOs.toLowerCase()==INPROGRESS_STATUS.toLowerCase()){
                     if (OS.checkList[index].fotos.length < 5) {
                       imagePickerCall(index);
                     } else {

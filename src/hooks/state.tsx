@@ -10,6 +10,7 @@ import {
   setListOS,
   UpdateOS,
 } from "../redux/os-list/actions";
+import { variable } from "../global/variables/commonsVariables";
 interface RequestCurrentOs {
   id: string;
 }
@@ -32,6 +33,8 @@ const ReduxProvider: React.FC = ({ children }) => {
   const currentOs = useSelector((state: AppState) => state.osList.currentOs);
 
   const response: OS[] = useSelector((state: AppState) => state.osList.data);
+  
+  const {FINISHED_STATUS, PENDING_STATUS, INPROGRESS_STATUS} = variable.statusOs
 
   const dispatch = useDispatch();
 
@@ -64,7 +67,7 @@ const ReduxProvider: React.FC = ({ children }) => {
     listOS.map((OS) => {
       osData.map((newOS, index) => {
         if (
-          newOS.statusOs.toLowerCase() != "pendente" ||
+          newOS.statusOs.toLowerCase() !=PENDING_STATUS.toLowerCase()  ||
           newOS.numeroOs == OS.numeroOs
         ) {
           osData.splice(index, 1);

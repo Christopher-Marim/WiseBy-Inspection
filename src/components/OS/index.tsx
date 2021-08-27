@@ -9,6 +9,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/auth";
 import { useRedux } from "../../hooks/state";
+import { variable } from "../../global/variables/commonsVariables";
 
 export function OrdemDeServico({
   id,
@@ -21,6 +22,7 @@ export function OrdemDeServico({
 }: OS) {
   const dispatch = useDispatch();
   const navigation: NavigationProp<any> = useNavigation();
+  const {FINISHED_STATUS, PENDING_STATUS, INPROGRESS_STATUS} = variable.statusOs
 
   const { SetCurrentOs, ChangeStatusOs } = useRedux();
 
@@ -39,7 +41,7 @@ export function OrdemDeServico({
         {
           text: "Iniciar",
           onPress: () => {
-            ChangeStatusOs(id, "Em andamento"),
+            ChangeStatusOs(id, INPROGRESS_STATUS),
               SetCurrentOs(id),
               navigation.navigate("CurrentOs");
           },
@@ -88,14 +90,14 @@ export function OrdemDeServico({
       </View>
       <View style={styles.line} />
       <View style={styles.buttons}>
-        {statusOs.toLowerCase() == "pendente" && (
+        {statusOs.toLowerCase() == PENDING_STATUS.toLowerCase() && (
           <TouchableOpacity style={styles.button} onPress={AlertOsOpen}>
             <Text style={[styles.buttonText, { color: themes.green }]}>
               INICIAR
             </Text>
           </TouchableOpacity>
         )}
-        {statusOs.toLowerCase() == "em andamento" && (
+        {statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase() && (
           <>
             <TouchableOpacity style={styles.button}>
               <Text style={[styles.buttonText, { color: themes.red }]}>
@@ -114,7 +116,7 @@ export function OrdemDeServico({
             </TouchableOpacity>
           </>
         )}
-        {statusOs.toLowerCase() == "finalizado" && (
+        {statusOs.toLowerCase() == FINISHED_STATUS.toLowerCase() && (
           <>
             <TouchableOpacity
               style={styles.button}

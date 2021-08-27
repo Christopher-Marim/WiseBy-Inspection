@@ -30,6 +30,7 @@ import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos"
 import { EquipmentsListCurrentOs } from "./../../components/EquipmentsListCurrentOS/index";
 import { SnackbarComponent } from "../../components/SnackbarComponent";
 import { LinearGradient } from "expo-linear-gradient";
+import { variable } from "../../global/variables/commonsVariables";
 
 type Anotation = {
   nome: string;
@@ -65,6 +66,7 @@ export function CurrentOS() {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const themes = statusDarkMode ? theme.colors_dark : theme.colors;
+  const {FINISHED_STATUS,PENDING_STATUS, INPROGRESS_STATUS} = variable.statusOs
 
   useEffect(() => {
     UpdateCurrentOS(OS.id, OS);
@@ -121,7 +123,7 @@ export function CurrentOS() {
   }
 
   const AlertStatus = () => {
-    if( OS.statusOs.toLowerCase() == "finalizado"){
+    if( OS.statusOs.toLowerCase() == FINISHED_STATUS.toLowerCase()){
       setTextAlert("Ordem de serviço já finalizada!");
     }
     else{
@@ -148,7 +150,7 @@ export function CurrentOS() {
 
   function removeImage() {
     try {
-      if (OS.checkList && OS.statusOs.toLowerCase()=='em andamento') {
+      if (OS.checkList && OS.statusOs.toLowerCase()== INPROGRESS_STATUS.toLowerCase()) {
         let indexItemToRemove = OS.checkList[
           indexCheckList ? indexCheckList : 0
         ].fotos.findIndex((x) => x.id == currentFoto.id);
@@ -168,7 +170,7 @@ export function CurrentOS() {
   }
   function addAnnotation(text: string) {
     try {
-      if (OS.checkList && OS.statusOs.toLowerCase() == "em andamento") {
+      if (OS.checkList && OS.statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase()) {
         OS.checkList[indexCheckList ? indexCheckList : 0].anotacao = text;
         setOS({ ...OS, checkList: [...OS.checkList] });
       } else {
@@ -260,11 +262,11 @@ export function CurrentOS() {
             />
           </TouchableOpacity>
           <Text style={[styles.title, {color:themes.titleColor}]}>{OS.nomeOs}</Text>
-          {OS.statusOs.toLowerCase() == "em andamento" ? (
+          {OS.statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase() ? (
             <TouchableOpacity
             style={{padding: 10, position:'absolute', right:10}}
               onPress={() => {
-                OS.statusOs = "Finalizado";
+                OS.statusOs = FINISHED_STATUS
                 atualizarOS(OS.id, OS);
                 dispatch(toggleFilterOs(false));
                 navigation.goBack();

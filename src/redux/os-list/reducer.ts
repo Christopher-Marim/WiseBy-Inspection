@@ -1,6 +1,9 @@
+import { variable } from "../../global/variables/commonsVariables";
 import { AddOSAction, OSListAction, OSListState, RemoveOSAction, SearchFilterOSAction, SetCurrentOSAction, ToggleFilterOSAction, OS, ChangeStatusOSAction, UpdateOSAction, SetListOSAction } from "../types";
 import { OS_LIST_ACTION_TYPES } from "./actions";
 
+
+const {FINISHED_STATUS, PENDING_STATUS, INPROGRESS_STATUS} = variable.statusOs
 const initialState: OSListState = {
   data: [
     {
@@ -150,7 +153,7 @@ const osList = (state: OSListState = initialState, action: OSListAction) => {
 
       const { filterFinish } = <ToggleFilterOSAction>action;
       var x = newState.data.filter((item) => {
-        if (filterFinish ? item.statusOs.toLowerCase() == 'finalizado' : item.statusOs.toLowerCase() != 'finalizado') {
+        if (filterFinish ? item.statusOs.toLowerCase() == FINISHED_STATUS.toLowerCase() : item.statusOs.toLowerCase() != FINISHED_STATUS.toLowerCase()) {
           return item;
         }
       })
@@ -161,7 +164,7 @@ const osList = (state: OSListState = initialState, action: OSListAction) => {
       const { filter, filterFinish } = <SearchFilterOSAction>action;
 
       var x = newState.data.filter((item) => {
-        if (filterFinish ? item.statusOs.toLowerCase() == 'finalizado' : item.statusOs.toLowerCase() != 'finalizado') {
+        if (filterFinish ? item.statusOs.toLowerCase() == FINISHED_STATUS.toLowerCase() : item.statusOs.toLowerCase() != FINISHED_STATUS.toLowerCase()) {
           if (
             RegExp(filter.toLowerCase()).test(item.nomeOs.toLowerCase()) ||
             RegExp(filter.toLowerCase()).test(item.numeroOs.toLowerCase())) {
