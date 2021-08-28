@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import { View, StatusBar } from "react-native";
 import { Header } from "../../components/Header";
 import { styles } from "./styles";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useDispatch, useSelector } from "react-redux";

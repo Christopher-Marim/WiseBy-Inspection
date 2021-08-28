@@ -158,7 +158,7 @@ export function Header() {
             }
           }}
         >
-          <Ionicons name="search" size={30} color={themes.titleColor} />
+          <Ionicons name="search" size={30} color={!searchActive?themes.titleColor:themes.buttonSelected} />
         </TouchableOpacity>
       </View>
       <View style={styles.filterButtons}>

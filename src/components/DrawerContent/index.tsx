@@ -92,7 +92,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
 
       <DrawerContentScrollView {...props}>
         <View style={[styles.drawerContent, {backgroundColor:'transparent',}]}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {props.navigation.navigate(AppScreens.profile)}}>
             <View style={[styles.userInfoSection, {backgroundColor:darkmode?'transparent':theme.colors_dark.primary}]}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Avatar.Image

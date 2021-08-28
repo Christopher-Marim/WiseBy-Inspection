@@ -1,4 +1,5 @@
 export enum AppScreens {
     home = "home",
-    currentOs = "CurrentOs"
+    currentOs = "CurrentOs",
+    profile = "Profile"
   }

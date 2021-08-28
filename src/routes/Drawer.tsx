@@ -4,6 +4,7 @@ import { createDrawerNavigator, DrawerContentComponentProps } from "@react-navig
 import { Home } from "../screens/Home";
 import { AppScreens } from "./types";
 import { DrawerContent } from "../components/DrawerContent";
+import {Profile} from "../screens/Profile/Profile";
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -14,6 +15,7 @@ export const DrawerScreens = () => {
     drawerContent={(props:DrawerContentComponentProps) => <DrawerContent {...props}/>}
     >
       <Screen name={AppScreens.home} component={Home} />
+      <Screen name={AppScreens.profile} component={Profile} />
     </Navigator>
   );
 };

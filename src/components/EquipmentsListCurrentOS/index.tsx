@@ -32,7 +32,7 @@ export function EquipmentsListCurrentOs({
               <Text>QTD</Text>
             </View>
           ) : (
-            OS.statusOs.toLowerCase() == INPROGRESS_STATUS && (
+            OS.statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase() && (
               <ButtonIconText
                 color={theme.colors.gray}
                 nameIcon={"plus"}
