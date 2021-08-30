@@ -52,6 +52,10 @@ export function EquipmentsListCurrentOs({
             </View>
           ))}
 
+          {OS.equipamentos.length==0&&(
+            <Text style={[styles.buttonAdd, {color:'gray', fontWeight:'bold'}]}>Nenhum equipamento selecionado</Text>
+          )}
+
           {OS.equipamentos.length > 0 &&
             OS.statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase() && (
               <View style={{ paddingTop: 10 }}>

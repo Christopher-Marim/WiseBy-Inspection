@@ -29,13 +29,11 @@ export function OrdemDeServico({
   const AlertOsOpen = () => {
     Alert.alert(
       "Iniciar ordem de serviço",
-      "Deseja iniciar a ordem de serviço ou apenas visualizar",
+      "Deseja iniciar a ordem de serviço?",
       [
         {
-          text: "Visualizar",
-          onPress: () => {
-            SetCurrentOs(id), navigation.navigate("CurrentOs");
-          },
+          text: "Cancelar",
+          onPress: () => null,
           style: "cancel",
         },
         {
@@ -91,11 +89,23 @@ export function OrdemDeServico({
       <View style={styles.line} />
       <View style={styles.buttons}>
         {statusOs.toLowerCase() == PENDING_STATUS.toLowerCase() && (
+          <>
           <TouchableOpacity style={styles.button} onPress={AlertOsOpen}>
             <Text style={[styles.buttonText, { color: themes.green }]}>
               INICIAR
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            SetCurrentOs(id), navigation.navigate("CurrentOs");
+          }}
+        >
+          <Text style={[styles.buttonText, { color: themes.blue }]}>
+            VISUALIZAR
+          </Text>
+        </TouchableOpacity>
+        </>
         )}
         {statusOs.toLowerCase() == INPROGRESS_STATUS.toLowerCase() && (
           <>
