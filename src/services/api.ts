@@ -1,10 +1,10 @@
 import axios from 'axios';
+import { variable } from '../../commonsVariables';
 
 const api = axios.create({
-    baseURL: 'http://transportadora.etm.ltda',
+    baseURL: variable.api.url,
     headers: {
-      Authorization:
-        'Basic ac0fb7c1dedf6eb4cb16e4dab5fac37a63bf447f74a8c47366f9e7f5d72d',
+      Authorization:variable.api.authorization,
     },
   });
 export default api;

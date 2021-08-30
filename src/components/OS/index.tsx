@@ -9,7 +9,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/auth";
 import { useRedux } from "../../hooks/state";
-import { variable } from "../../global/variables/commonsVariables";
+import { variable } from "../../../commonsVariables";
 
 export function OrdemDeServico({
   id,

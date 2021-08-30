@@ -10,7 +10,7 @@ import {
   setListOS,
   UpdateOS,
 } from "../redux/os-list/actions";
-import { variable } from "../global/variables/commonsVariables";
+import { variable } from "../../commonsVariables";
 interface RequestCurrentOs {
   id: string;
 }

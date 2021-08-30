@@ -61,7 +61,7 @@ const initialState: EquipamentoListState = {
     {
       id:'12',
       codigoEquipamento:'15008',
-      nomeEquipamento:'Furadeira'
+      nomeEquipamento:'Tinta'
     },
   ],
   dataFiltred:[]

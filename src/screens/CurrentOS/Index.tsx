@@ -30,7 +30,7 @@ import { ModalListaEquipamentos } from "../../components/ModalListaEquipamentos"
 import { EquipmentsListCurrentOs } from "./../../components/EquipmentsListCurrentOS/index";
 import { SnackbarComponent } from "../../components/SnackbarComponent";
 import { LinearGradient } from "expo-linear-gradient";
-import { variable } from "../../global/variables/commonsVariables";
+import { variable } from "../../../commonsVariables";
 
 type Anotation = {
   nome: string;

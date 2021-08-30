@@ -17,7 +17,7 @@ import { styles } from "./styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SubTitle } from "../SubTitleCurrentOS";
 import { ButtonIconText } from "../ButtonIconText";
-import { variable } from "../../global/variables/commonsVariables";
+import { variable } from "../../../commonsVariables";
 
 type Anotation = {
   nome: string;

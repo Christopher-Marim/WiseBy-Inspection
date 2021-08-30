@@ -3,35 +3,34 @@ import api from "./api";
 interface Response {
   token: string;
   user: {
-    nome:string,
+    nome: string,
     login: string,
     senha: string,
-    systemUserId:string,
-    systemUnitId:string
+    systemUserId: string,
+    systemUnitId: string
   };
 }
 interface RequestSignIn {
-  login:string,
-  senha:string
+  login: string,
+  senha: string
 }
 
-export async function signIn({login, senha}: RequestSignIn): Promise<Response> {
+export async function signIn({ login, senha }: RequestSignIn): Promise<Response> {
   console.log(login, senha)
 
-  //const {data} = await api.get('/acessoappcoleta')
- //console.log(data)
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          token: 'jk12h3j21h3jk212h3jk12h3jkh12j3kh12k123hh21g3f12f3',
-          user:{
-            nome:'Chrisotpher',
-            login: `${login}`,
-            senha: `${senha}`,
-            systemUserId:'1', 
-            systemUnitId:'1'
-          }
-        });
-      }, 2000);
+  const { data } = await api.get(`/acessoapp?method=loadAll&usuarioApp=${login}&senhaApp=${senha}`)
+  const user = data.data[0]
+  console.log(user)
+  return new Promise((resolve) => {
+    resolve({
+      token: `${user?.chave}`,
+      user: {
+        nome: `${user?.nome}`,
+        login: `${login}`,
+        senha: `${senha}`,
+        systemUserId: `${user?.system_user_id}`,
+        systemUnitId: `${user?.system_unit_id}`
+      }
     });
-  }
+  });
+}

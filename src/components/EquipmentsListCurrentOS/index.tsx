@@ -7,7 +7,7 @@ import { SubTitle } from "../SubTitleCurrentOS";
 import { theme } from "./../../global/styles/theme";
 import { TextInput } from "react-native";
 import { ButtonIconText } from "../ButtonIconText";
-import { variable } from "../../global/variables/commonsVariables";
+import { variable } from "../../../commonsVariables";
 
 type Props = {
   setVisibleModalEquipamentos(condition: boolean): void;

@@ -1,4 +1,4 @@
-import { variable } from "../../global/variables/commonsVariables";
+import { variable } from "../../../commonsVariables";
 import { AddOSAction, OSListAction, OSListState, RemoveOSAction, SearchFilterOSAction, SetCurrentOSAction, ToggleFilterOSAction, OS, ChangeStatusOSAction, UpdateOSAction, SetListOSAction } from "../types";
 import { OS_LIST_ACTION_TYPES } from "./actions";
 
