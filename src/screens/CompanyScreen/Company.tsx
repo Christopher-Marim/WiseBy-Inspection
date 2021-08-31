@@ -7,7 +7,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -19,13 +18,16 @@ import styles from './styles';
 import { useAuth } from '../../hooks/auth';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Company, ModalPickerCompany } from '../../components/ModalPickerEmpresa';
-import { AppScreens } from '../../routes/types';
+import api from '../../services/api';
+import { Loader } from '../../components/Loader';
 
 export function CompanyScreen() {
 
   const [borderColor, setBorderColer] = useState('black');
   const [modalVisiblePicker, setModalVisiblePicker] = useState(false);
+  const [LoaderVisible, setLoaderVisible] = useState(false);
   const [Empresa, setEmpresa] = useState<Company>();
+  const [Empresas, setEmpresas] = useState<Company[]>();
   const [LeftPositionAnimation] = useState(new Animated.Value(-200));
   const [RightPositionAnimation] = useState(
     new Animated.Value(Dimensions.get('window').width),
@@ -62,23 +64,33 @@ export function CompanyScreen() {
     }
   }
 
-  const empresas = [
-    {
-      id:'1',
-      nomeEmpresa:'ETM',
-      systemUnitId:'1',
-    },
-    {
-      id:'2',
-      nomeEmpresa:'Sparrows',
-      systemUnitId:'2',
-    },
-    {
-      id:'3',
-      nomeEmpresa:'Petrobras',
-      systemUnitId:'3',
-    },
-  ]
+
+  async function getEmpresas() {
+    if(Empresas){
+      setModalVisiblePicker(true)
+      return;
+    }
+    try{
+      setLoaderVisible(true);
+
+      const response = await api.get(`/unituser?method=get_units&userid=${user?.systemUserId}`)
+      console.log(response.data.data)
+      const responseCompany:Company[] = response.data.data.map((c:any)=>{
+        const company:Company = {
+          id:c.id,
+          nomeEmpresa:c.name,
+          systemUnitId:c.system_unit_id
+        } 
+        return company
+      })
+      setEmpresas(responseCompany)
+      setLoaderVisible(false);
+      setModalVisiblePicker(true)
+    }catch(error){
+      alert(error)
+      setLoaderVisible(false);
+    }
+  }
 
   async function SetEmpresaAsyncStorage() {
     try {
@@ -98,7 +110,7 @@ export function CompanyScreen() {
   return (
     <View style={styles.SafeAreaView}>
       <ModalPickerCompany
-        companys={empresas}
+        companys={Empresas?Empresas:[]}
         selectCompany={(response)=>selectCompany(response)}
         visible={modalVisiblePicker}
         closeModalPicker={closeModalPicker}
@@ -132,7 +144,7 @@ export function CompanyScreen() {
           <TouchableOpacity
             style={[styles.picker, {width: wp('80%'), height: hp('6%'), borderColor: borderColor},]}
             onPress={() => {
-              setModalVisiblePicker(true)
+              getEmpresas();
             }}>
             <Text style={styles.textEmpresa}>{Empresa?.nomeEmpresa}</Text>
           </TouchableOpacity>
@@ -154,6 +166,8 @@ export function CompanyScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      {LoaderVisible&&<Loader/>}
+      
     </View>
   );
 }

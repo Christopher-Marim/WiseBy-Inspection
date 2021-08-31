@@ -28,8 +28,7 @@ export function ModalPickerCompany({
   closeModalPicker,
   selectCompany,
 }: Props) {
-  const [empresas, setEmpresas] = useState<Company[]>(companys);
-
+  
   return (
     <Modal
       transparent
@@ -48,7 +47,7 @@ export function ModalPickerCompany({
           
         <Text style={styles.empresas}>Empresas</Text>
           <FlatList
-          data={empresas}
+          data={companys}
           keyExtractor={(item)=>item?.id}
           renderItem={({item})=>(
             <TouchableOpacity
