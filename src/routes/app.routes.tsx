@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { DrawerScreens } from "./Drawer";
 import { AppScreens } from "./types";
 import { CurrentOS } from "../screens/CurrentOS/Index";
-import Company from "../screens/CompanyScreen/Company";
+import {CompanyScreen} from "../screens/CompanyScreen/Company";
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export function AppRoutes() {
     >
       <Stack.Screen name={"DrawerScreens"} component={DrawerScreens} />
       <Stack.Screen name={AppScreens.currentOs} component={CurrentOS} />
-      <Stack.Screen name={AppScreens.company} component={Company} />
+      <Stack.Screen name={AppScreens.company} component={CompanyScreen} />
     </Stack.Navigator>
   );
 }

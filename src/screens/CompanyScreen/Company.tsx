@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   Alert,
@@ -19,11 +18,14 @@ import {
 import styles from './styles';
 import { useAuth } from '../../hooks/auth';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { Company, ModalPickerCompany } from '../../components/ModalPickerEmpresa';
+import { AppScreens } from '../../routes/types';
 
-export default function Company() {
+export function CompanyScreen() {
 
   const [borderColor, setBorderColer] = useState('black');
-  const [Empresa, setEmpresa] = useState('');
+  const [modalVisiblePicker, setModalVisiblePicker] = useState(false);
+  const [Empresa, setEmpresa] = useState<Company>();
   const [LeftPositionAnimation] = useState(new Animated.Value(-200));
   const [RightPositionAnimation] = useState(
     new Animated.Value(Dimensions.get('window').width),
@@ -50,28 +52,57 @@ export default function Company() {
   const {user} = useAuth()
 
   function ActionButtonProsseguir() {
-    if (Empresa.length == 0) {
+    if (Empresa?.nomeEmpresa.length == 0) {
       Alert.alert(
         'Empresa não selecionada',
         'Seleciona sua empresa antes de prosseguir.',
       );
     } else {
       SetEmpresaAsyncStorage();
-      navigation.navigate('home');
     }
   }
 
+  const empresas = [
+    {
+      id:'1',
+      nomeEmpresa:'ETM',
+      systemUnitId:'1',
+    },
+    {
+      id:'2',
+      nomeEmpresa:'Sparrows',
+      systemUnitId:'2',
+    },
+    {
+      id:'3',
+      nomeEmpresa:'Petrobras',
+      systemUnitId:'3',
+    },
+  ]
+
   async function SetEmpresaAsyncStorage() {
     try {
-      await AsyncStorage.setItem('@Empresa', Empresa);
+      await AsyncStorage.setItem('@Empresa', JSON.stringify(Empresa));
+      navigation.navigate('DrawerScreens');
     } catch (e) {
       alert(e)
       console.error(e);
     }
   }
 
+  const closeModalPicker = () => setModalVisiblePicker(false)
+  
+  const selectCompany = (response: Company) => setEmpresa(response)
+  
+
   return (
     <View style={styles.SafeAreaView}>
+      <ModalPickerCompany
+        companys={empresas}
+        selectCompany={(response)=>selectCompany(response)}
+        visible={modalVisiblePicker}
+        closeModalPicker={closeModalPicker}
+      />
       <View style={styles.container1}>
         <Animated.View
           style={[
@@ -84,7 +115,7 @@ export default function Company() {
         <View style={styles.container1Texts}>
           <Text style={[styles.textETM,{fontSize:hp('3.6%')}]}>{user?.nome}</Text>
           <Text style={[styles.subtextETM, {fontSize:hp('2.15%')}]}>
-            Informe a baixo a empresa ou departamento para dar prosseguimento
+            Informe a baixo a empresa ou departamento para dar prosseguimento!
           </Text>
         </View>
         <Animated.View
@@ -101,8 +132,9 @@ export default function Company() {
           <TouchableOpacity
             style={[styles.picker, {width: wp('80%'), height: hp('6%'), borderColor: borderColor},]}
             onPress={() => {
+              setModalVisiblePicker(true)
             }}>
-            <Text style={styles.textEmpresa}>{Empresa}</Text>
+            <Text style={styles.textEmpresa}>{Empresa?.nomeEmpresa}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, {width: wp('40%'), height: hp('6%')}]}

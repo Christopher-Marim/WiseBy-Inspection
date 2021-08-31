@@ -10,14 +10,12 @@ import { ListaOs } from "../../components/ListaDeOs";
 import { theme } from "../../global/styles/theme";
 import { AppState } from "../../redux/types";
 
-export function Home() {
-  const { user, signOut } = useAuth();
-  
+export function Home() {  
   const statusDarkMode = useSelector((state:AppState) => state.darkModeContextReducer)
   const themes = statusDarkMode? theme.colors_dark : theme.colors
 
   return (
-    <View style={[styles.container, {backgroundColor: themes.background,}]}>
+    <View style={[styles.container, {backgroundColor: themes.background}]}>
       <LinearGradient
         style={styles.header}
         start={[1, 0]}
