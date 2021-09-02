@@ -34,26 +34,28 @@ export const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        
-        justifyContent: 'flex-end',
-        paddingBottom:50,
         alignItems: 'center',
     },
     wrapperPerfil:{
-        position: 'absolute',
-        top: 0,
+        justifyContent:'center',
+        alignItems: 'center',
+        width: '85%',
+
     },
     imagePerfil: {
-        width: 200,
-        height: 200,
+        width: '100%',
+        height: '100%',
         overflow: "hidden",
         borderRadius:100,
-        margin:-2
         
     },
     imageMoldure:{
         borderWidth:6,
         borderRadius:100,
+        height:200,
+        width:200,
+        justifyContent:"center", 
+        alignItems:"center",
         marginTop:-100,
         borderColor:'white'
     },
@@ -70,8 +72,10 @@ export const styles = StyleSheet.create({
         color: 'gray',
     },
     wrapperInfos:{
+        marginTop:20,
+        justifyContent:'flex-start',
         alignItems:'flex-start',
-        width: '85%',
+        width: '100%',
     },
     textInfoTitle:{
         fontSize:18,
