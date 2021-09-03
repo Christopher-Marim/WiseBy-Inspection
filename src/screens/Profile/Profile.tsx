@@ -1,21 +1,29 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import React, { useState, useEffect } from "react";
-import { Image, TextInput } from "react-native";
+
 import {
+  Alert,
+  Image,
+  TextInput,
   ScrollView,
   View,
   Text,
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
+
 import { Company } from "../../components/ModalPickerEmpresa";
 import { useAuth } from "../../hooks/auth";
 
 import { styles } from "./styles";
+import { Fotos } from "../../redux/types";
 
 export function Profile(props: any) {
+  const [currentFoto, SetCurrentFoto] = useState<Fotos>({} as Fotos);
   const [empresa, setEmpresa] = useState<Company>();
   const { user } = useAuth();
 
@@ -30,12 +38,45 @@ export function Profile(props: any) {
     setEmpresa(empresaAux);
   }
 
+  async function imagePickerCall() {
+    if (Constants.platform?.ios) {
+      const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+      if (status != "granted") {
+        Alert.alert(
+          "Não autorizado",
+          "Nós precisamos de autorização para prosseguir"
+        );
+        return;
+      }
+    }
+    const data = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (data.cancelled) {
+      Alert.alert("Operação cancelada");
+      return;
+    }
+    if (!data.cancelled && data.uri.length == 0) {
+      Alert.alert("Imagem não processada");
+      return;
+    }
+
+    const imagem = {
+      id: "null",
+      nome: 'Foto Perfil',
+      conteudo: `${data.uri}`,
+    };
+    SetCurrentFoto(imagem);
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
         resizeMode={"cover"}
         imageStyle={styles.image}
-        source={require("../../assets/Capture.png")}
+        source={require(currentFoto?currentFoto.conteudo:"../../assets/Capture.png")}
         style={styles.backgroundImage}
       >
         <View style={styles.header}>
@@ -54,7 +95,9 @@ export function Profile(props: any) {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.buttonNewPicture}>
+        <TouchableOpacity 
+        onPress={() => imagePickerCall()}
+        style={styles.buttonNewPicture}>
           <MaterialCommunityIcons
             name="camera-plus-outline"
             size={30}
@@ -67,7 +110,7 @@ export function Profile(props: any) {
         <View style={styles.wrapperPerfil}>
           <View style={styles.imageMoldure}>
             <Image
-              source={require("../../assets/Capture.png")}
+              source={require(currentFoto?currentFoto.conteudo:"../../assets/Capture.png")}
               resizeMode="cover"
               style={styles.imagePerfil}
             />
@@ -77,7 +120,11 @@ export function Profile(props: any) {
             <Text style={styles.textEmail}>{user?.login}</Text>
           </View>
           <ScrollView
-          contentContainerStyle={{flex:1,paddingHorizontal:50 , backgroundColor:'red'}}
+            contentContainerStyle={{
+              flex: 1,
+              paddingHorizontal: 50,
+              backgroundColor: "red",
+            }}
           >
             <View style={styles.wrapperInfos}>
               <View style={styles.info}>

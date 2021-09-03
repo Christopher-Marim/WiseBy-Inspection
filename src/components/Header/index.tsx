@@ -48,6 +48,7 @@ export function Header() {
   const {GetListOsStorage, SetNewsOSs}=useRedux()
   
   async function GetStorage(){
+    dispatch(toggleFilterOs(false));
     await GetListOsStorage()
     dispatch(toggleFilterOs(false));
   }

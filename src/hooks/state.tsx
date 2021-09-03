@@ -52,9 +52,12 @@ const ReduxProvider: React.FC = ({ children }) => {
   }
   async function GetListOsStorage() {
     setLoading(true)
-    const listOSaux = await AsyncStorage.getItem("Redux:dataOs");
-    const listOS: OS[] = JSON.parse(listOSaux ? listOSaux : "[]");
-    dispatch(setListOS(listOS));
+   
+      const listOSaux = await AsyncStorage.getItem("Redux:dataOs");
+      const listOS: OS[] = JSON.parse(listOSaux ? listOSaux : "[]");
+      if(listOS.length>0)
+      dispatch(setListOS(listOS));
+    
     setLoading(false)
 
   }
