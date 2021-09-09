@@ -48,7 +48,7 @@ export function CompanyScreen() {
         useNativeDriver: true,
       }),
     ]).start();
-
+    GetEmpresaAsyncStorage();
   }, []);
 
   const {user} = useAuth()
@@ -96,6 +96,18 @@ export function CompanyScreen() {
     try {
       await AsyncStorage.setItem('@Empresa', JSON.stringify(Empresa));
       navigation.navigate('DrawerScreens');
+    } catch (e) {
+      alert(e)
+      console.error(e);
+    }
+  }
+  async function GetEmpresaAsyncStorage() {
+    try {
+     const stringEmpresa = await AsyncStorage.getItem('@Empresa');
+     if(stringEmpresa){
+       const empresaResponse:Company = JSON.parse(stringEmpresa);
+       setEmpresa(empresaResponse);
+     }
     } catch (e) {
       alert(e)
       console.error(e);
