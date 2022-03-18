@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  StatusBar,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,12 +21,15 @@ import { Company } from "../../components/ModalPickerEmpresa";
 import { useAuth } from "../../hooks/auth";
 
 import { styles } from "./styles";
-import { Fotos } from "../../redux/types";
+import { NavigationProp, useNavigation } from "@react-navigation/core";
+import { AppScreens } from "../../routes/types";
 
 export function Profile(props: any) {
-  const [currentFoto, SetCurrentFoto] = useState<Fotos>({} as Fotos);
+  const [currentFoto, SetCurrentFoto] = useState("../../assets/Capture.png");
   const [empresa, setEmpresa] = useState<Company>();
   const { user } = useAuth();
+
+  const navigation: NavigationProp<any> = useNavigation();
 
   useEffect(() => {
     getEmpresa();
@@ -65,24 +69,30 @@ export function Profile(props: any) {
 
     const imagem = {
       id: "null",
-      nome: 'Foto Perfil',
+      nome: "Foto Perfil",
       conteudo: `${data.uri}`,
     };
-    SetCurrentFoto(imagem);
+    SetCurrentFoto(imagem.conteudo);
+    console.log(currentFoto);
   }
 
   return (
     <View style={{ flex: 1 }}>
+      <StatusBar
+        barStyle={"light-content"}
+        backgroundColor={"transparent"}
+        translucent
+      />
       <ImageBackground
         resizeMode={"cover"}
         imageStyle={styles.image}
-        source={require(currentFoto?currentFoto.conteudo:"../../assets/Capture.png")}
+        source={{ uri: currentFoto }}
         style={styles.backgroundImage}
       >
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.buttonHeader}
-            onPress={() => props.navigation.goBack()}
+            onPress={() => navigation.goBack()}
           >
             <MaterialCommunityIcons name="arrow-left" size={30} color="white" />
           </TouchableOpacity>
@@ -95,9 +105,10 @@ export function Profile(props: any) {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity 
-        onPress={() => imagePickerCall()}
-        style={styles.buttonNewPicture}>
+        <TouchableOpacity
+          onPress={() => imagePickerCall()}
+          style={styles.buttonNewPicture}
+        >
           <MaterialCommunityIcons
             name="camera-plus-outline"
             size={30}
@@ -110,7 +121,7 @@ export function Profile(props: any) {
         <View style={styles.wrapperPerfil}>
           <View style={styles.imageMoldure}>
             <Image
-              source={require(currentFoto?currentFoto.conteudo:"../../assets/Capture.png")}
+              source={{ uri: currentFoto }}
               resizeMode="cover"
               style={styles.imagePerfil}
             />
@@ -119,13 +130,7 @@ export function Profile(props: any) {
             <Text style={styles.textName}>{user?.nome.toUpperCase()}</Text>
             <Text style={styles.textEmail}>{user?.login}</Text>
           </View>
-          <ScrollView
-            contentContainerStyle={{
-              flex: 1,
-              paddingHorizontal: 50,
-              backgroundColor: "red",
-            }}
-          >
+          <ScrollView>
             <View style={styles.wrapperInfos}>
               <View style={styles.info}>
                 <Text style={styles.textInfoTitle}>Nome</Text>
@@ -143,12 +148,14 @@ export function Profile(props: any) {
                   value={user?.senha}
                 ></TextInput>
               </View>
-              <View style={styles.info}>
+              <TouchableOpacity
+              onPress={()=>navigation.navigate(AppScreens.company)}
+              style={styles.info}>
                 <Text style={styles.textInfoTitle}>Empresa</Text>
                 <Text style={styles.textInfoSubTitle}>
                   {empresa?.nomeEmpresa}
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

@@ -72,10 +72,11 @@ export const styles = StyleSheet.create({
         color: 'gray',
     },
     wrapperInfos:{
+        flex: 1,
         marginTop:20,
         justifyContent:'flex-start',
         alignItems:'flex-start',
-        width: '100%',
+        width: Dimensions.get('window').width,
     },
     textInfoTitle:{
         fontSize:18,

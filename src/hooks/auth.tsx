@@ -6,6 +6,7 @@ import { netInfo } from '../utils/netInfo';
 interface User {
   nome: string;
   login: string;
+  //imageConteudo:string;
   senha: string;
   systemUnitId: string;
   systemUserId: string;
@@ -63,6 +64,17 @@ const AuthProvider: React.FC = ({children}) => {
     await AsyncStorage.setItem('@RNAuth:token', response.token);
   }
 
+  /* async function ChangeImageUser(conteudo:string)  {
+    const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
+    const response:User = JSON.parse(storagedUser?storagedUser:'{}')
+
+    response.imageConteudo = conteudo;
+    console.log("RESPONSE = ", response)
+    setUser(response);
+
+    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response));
+
+  } */
   async function signOut() {
     await AsyncStorage.clear();
     setUser(null);
