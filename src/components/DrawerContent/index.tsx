@@ -96,6 +96,7 @@ export function DrawerContent(props: DrawerContentComponentProps) {
             <View style={[styles.userInfoSection, {backgroundColor:darkmode?'transparent':theme.colors_dark.primary}]}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Avatar.Image
+                tvParallaxProperties={undefined}
                   source={require("../../assets/iconWhite.png")}
                   size={80}
                 />
@@ -151,7 +152,8 @@ export function DrawerContent(props: DrawerContentComponentProps) {
                   props.navigation.navigate("home");
                 }}
               />
-              <List.Item
+              <List.Item 
+
                 left={() => (
                   <List.Icon
                     icon={({ color, size }) => (
